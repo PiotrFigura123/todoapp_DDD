@@ -18,8 +18,7 @@ public class Task {
     @NotBlank
     @NotEmpty
     private String description;
-    @NotEmpty
-    private String done;
+    private boolean done;
 
     public Task() {
     }
@@ -40,11 +39,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getDone() {
+    public boolean getDone() {
         return done;
     }
 
-    public void setDone(String done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
 }
