@@ -1,5 +1,6 @@
 package pl.piotrFigura.ToDoApp.task;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
-public class Task extends BaseAuditableEntity {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +25,10 @@ public class Task extends BaseAuditableEntity {
     private String description;
     private boolean done;
     private LocalDateTime deadline;
+
+    @Embedded
+    private Audit audit = new Audit();
+
     public Task() {
     }
 
@@ -63,6 +68,5 @@ public class Task extends BaseAuditableEntity {
         description = source.getDescription();
         done = source.isDone();
         deadline = source.getDeadline();
-
     }
 }
