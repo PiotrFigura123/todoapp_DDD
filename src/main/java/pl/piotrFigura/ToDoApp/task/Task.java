@@ -35,11 +35,11 @@ public class Task {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
-    public boolean getDone() {
+    public boolean isDone() {
         return done;
     }
 

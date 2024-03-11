@@ -5,7 +5,9 @@ import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,6 +48,17 @@ class TaskController {
         }
         toUpdate.setId(id);
         taskRepository.save(toUpdate);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Transactional //na poczatku BEGIN a na koniec COMMIT na bazie
+    @PatchMapping("/{id}")
+    public ResponseEntity<Task> toggleTask(@PathVariable Long id) {
+        if (!taskRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        taskRepository.findById(id)
+                .ifPresent(task -> task.setDone(!task.isDone()));
         return ResponseEntity.noContent().build();
     }
 }
