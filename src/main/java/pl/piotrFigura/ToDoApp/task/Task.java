@@ -4,9 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PostUpdate;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -19,7 +23,9 @@ public class Task {
     @NotEmpty
     private String description;
     private boolean done;
-
+    private LocalDateTime deadline;
+    private LocalDateTime updatedOn;
+    private LocalDateTime createdOn;
     public Task() {
     }
 
@@ -45,5 +51,22 @@ public class Task {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    @PrePersist
+    private void setCreatedOnTime(){
+        createdOn = LocalDateTime.now();
+    }
+    @PreUpdate
+    private void setUpdatedOnTime(){
+        updatedOn = LocalDateTime.now();
     }
 }
