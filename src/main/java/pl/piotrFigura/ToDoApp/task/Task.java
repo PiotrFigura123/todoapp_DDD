@@ -14,15 +14,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
-public class Task {
+public class Task extends Description{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    @NotEmpty
-    private String description;
-    private boolean done;
     private LocalDateTime deadline;
 
     @Embedded
@@ -42,21 +38,6 @@ public class Task {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
 
     public LocalDateTime getDeadline() {
         return deadline;
@@ -74,8 +55,6 @@ public class Task {
     }
 
     public void updateFrom(final Task source){
-        description = source.description;
-        done = source.done;
         deadline = source.deadline;
         taskGroups = source.taskGroups;
     }
