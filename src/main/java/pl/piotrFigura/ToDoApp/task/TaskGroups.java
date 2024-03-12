@@ -1,37 +1,38 @@
 package pl.piotrFigura.ToDoApp.task;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
+import java.util.Set;
+
 
 @Entity
-@Table(name = "tasks")
-public class Task {
+@Table(name = "task_groups")
+public class TaskGroups {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    @NotEmpty
+
+    @NotBlank(message = "description cen't be blank")
+    @NotEmpty(message = "description can't be empty")
     private String description;
     private boolean done;
-    private LocalDateTime deadline;
-
     @Embedded
     private Audit audit = new Audit();
 
-    @ManyToOne
-    @JoinColumn(name = "task_groups_id", referencedColumnName = "id")
-    private TaskGroups taskGroups;
-    public Task() {
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "taskGroups")
+    private Set<Task> tasks;
+
+    public TaskGroups() {
     }
 
     public Long getId() {
@@ -46,7 +47,7 @@ public class Task {
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -58,25 +59,11 @@ public class Task {
         this.done = done;
     }
 
-    public LocalDateTime getDeadline() {
-        return deadline;
+    public Set<Task> getTasks() {
+        return tasks;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
-    }
-    TaskGroups getTaskGroups() {
-        return taskGroups;
-    }
-
-    void setTaskGroups(TaskGroups taskGroups) {
-        this.taskGroups = taskGroups;
-    }
-
-    public void updateFrom(final Task source){
-        description = source.description;
-        done = source.done;
-        deadline = source.deadline;
-        taskGroups = source.taskGroups;
+    void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 }

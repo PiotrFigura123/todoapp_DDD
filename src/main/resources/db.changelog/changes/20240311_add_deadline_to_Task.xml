@@ -5,8 +5,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet id="1" author="pfigura">
         <addColumn tableName="tasks">
-            <column name="deadline" type="TIMESTAMP WITHOUT TIME ZONE">
-            </column>
+            <column name="deadline" type="TIMESTAMP WITHOUT TIME ZONE"></column>
         </addColumn>
     </changeSet>
 </databaseChangeLog>
