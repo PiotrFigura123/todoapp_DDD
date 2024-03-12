@@ -1,55 +1,50 @@
-package pl.piotrFigura.ToDoApp.task;
+package pl.piotrFigura.ToDoApp.project;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.Set;
-import pl.piotrFigura.ToDoApp.project.Project;
-
 
 @Entity
-@Table(name = "task_groups")
-public class TaskGroups extends Description{
+@Table(name = "project_step")
+class ProjectSteps {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    private Audit audit = new Audit();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "taskGroups")
-    private Set<Task> tasks;
+    private String description;
+    private Integer daysToDeadline;
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
-    public TaskGroups() {
-    }
-
     public Long getId() {
         return id;
     }
 
-    void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Set<Task> getTasks() {
-        return tasks;
+    public String getDescription() {
+        return description;
     }
 
-    void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getDaysToDeadline() {
+        return daysToDeadline;
+    }
+
+    public void setDaysToDeadline(Integer daysToDeadline) {
+        this.daysToDeadline = daysToDeadline;
     }
 
     public Project getProject() {
