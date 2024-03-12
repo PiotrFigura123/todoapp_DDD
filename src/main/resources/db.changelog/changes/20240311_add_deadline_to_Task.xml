@@ -4,11 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet id="1" author="pfigura">
-        <createTable tableName="tasks">
-            <column name="id" autoIncrement="true" type="BIGINT"></column>
-            <column name="description" type="VARCHAR(255)" ></column>
-            <column name="done" type="BOOLEAN"></column>
-            <column name="task_groups_id" type="BIGINT"></column>
-        </createTable>
+        <addColumn tableName="tasks">
+            <column name="deadline" type="TIMESTAMP WITHOUT TIME ZONE"></column>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>

@@ -1,25 +1,30 @@
 package pl.piotrFigura.ToDoApp.task;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
-public class Task {
+public class Task extends Description{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    @NotEmpty
-    private String description;
-    private boolean done;
+    private LocalDateTime deadline;
 
+    @Embedded
+    private Audit audit = new Audit();
+
+    @ManyToOne
+    @JoinColumn(name = "task_groups_id", referencedColumnName = "id")
+    private TaskGroups taskGroups;
     public Task() {
     }
 
@@ -27,23 +32,28 @@ public class Task {
         return id;
     }
 
-    public void setId(Long id) {
+    void setId(Long id) {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+
+    public LocalDateTime getDeadline() {
+        return deadline;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+    TaskGroups getTaskGroups() {
+        return taskGroups;
     }
 
-    public boolean getDone() {
-        return done;
+    void setTaskGroups(TaskGroups taskGroups) {
+        this.taskGroups = taskGroups;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    public void updateFrom(final Task source){
+        deadline = source.deadline;
+        taskGroups = source.taskGroups;
     }
 }
