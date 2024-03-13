@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.task;
+package pl.piotrFigura.ToDoApp.task.interfaces;
 
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.piotrFigura.ToDoApp.task.adapter.TaskRepository;
+import pl.piotrFigura.ToDoApp.task.domain.Task;
+import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
 @Controller
 @RequestMapping("/tasks")

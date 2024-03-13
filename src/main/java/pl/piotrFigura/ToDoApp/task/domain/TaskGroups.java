@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.task;
+package pl.piotrFigura.ToDoApp.task.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
@@ -12,12 +12,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
-import pl.piotrFigura.ToDoApp.project.Project;
+import pl.piotrFigura.ToDoApp.project.domain.Project;
+import pl.piotrFigura.ToDoApp.task.domain.Task;
+import pl.piotrFigura.ToDoApp.util.Audit;
+import pl.piotrFigura.ToDoApp.util.Description;
 
 
 @Entity
 @Table(name = "task_groups")
-public class TaskGroups extends Description{
+public class TaskGroups extends Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

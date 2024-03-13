@@ -1,8 +1,8 @@
-package pl.piotrFigura.ToDoApp.task.adapter;
+package pl.piotrFigura.ToDoApp.task.infrastructure.jpa;
 
 import java.util.List;
 import java.util.Optional;
-import pl.piotrFigura.ToDoApp.task.TaskGroups;
+import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 
 public interface TaskGroupRepository {
 

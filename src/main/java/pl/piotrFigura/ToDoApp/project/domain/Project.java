@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.project;
+package pl.piotrFigura.ToDoApp.project.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
-import pl.piotrFigura.ToDoApp.task.TaskGroups;
+import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 
 @Entity
 @Table(name = "projects")

@@ -1,7 +1,7 @@
-package pl.piotrFigura.ToDoApp.project.adapter;
+package pl.piotrFigura.ToDoApp.project.infrastructure.jpa;
 
 import java.util.Optional;
-import pl.piotrFigura.ToDoApp.project.Project;
+import pl.piotrFigura.ToDoApp.project.domain.Project;
 import java.util.List;
 
 interface ProjectRepository {

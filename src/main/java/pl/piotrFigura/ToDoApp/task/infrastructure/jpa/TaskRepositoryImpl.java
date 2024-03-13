@@ -1,10 +1,10 @@
-package pl.piotrFigura.ToDoApp.task.adapter;
+package pl.piotrFigura.ToDoApp.task.infrastructure.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import pl.piotrFigura.ToDoApp.task.Task;
+import pl.piotrFigura.ToDoApp.task.domain.Task;
 
 @Repository
 interface TaskRepositoryImpl extends TaskRepository, JpaRepository<Task, Long> {

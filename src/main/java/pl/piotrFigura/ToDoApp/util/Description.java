@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.task;
+package pl.piotrFigura.ToDoApp.util;
 
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
@@ -20,11 +20,11 @@ public abstract class Description {
         this.description = description;
     }
 
-    boolean isDone() {
+    public boolean isDone() {
         return done;
     }
 
-    void setDone(boolean done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
 }

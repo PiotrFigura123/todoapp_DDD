@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.project;
+package pl.piotrFigura.ToDoApp.project.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

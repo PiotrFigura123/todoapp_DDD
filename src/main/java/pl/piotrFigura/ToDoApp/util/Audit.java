@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.task;
+package pl.piotrFigura.ToDoApp.util;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.PrePersist;
@@ -6,7 +6,7 @@ import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 @Embeddable
-class Audit {
+public class Audit {
 
     private LocalDateTime updatedOn;
     private LocalDateTime createdOn;

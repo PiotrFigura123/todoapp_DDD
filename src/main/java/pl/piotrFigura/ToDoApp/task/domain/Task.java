@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.task;
+package pl.piotrFigura.ToDoApp.task.domain;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -9,10 +9,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import pl.piotrFigura.ToDoApp.util.Audit;
+import pl.piotrFigura.ToDoApp.util.Description;
 
 @Entity
 @Table(name = "tasks")
-public class Task extends Description{
+public class Task extends Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
