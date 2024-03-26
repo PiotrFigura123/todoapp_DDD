@@ -13,7 +13,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.util.Audit;
 import pl.piotrFigura.ToDoApp.util.Description;
 
@@ -25,18 +24,20 @@ public class TaskGroups extends Description {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Embedded
     private Audit audit = new Audit();
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "taskGroups")
     private Set<Task> tasks;
-
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
     public TaskGroups() {
+    }
+
+    public TaskGroups(String description, Set<Task> tasks) {
+        this.description = description;
+        this.tasks = tasks;
     }
 
     public Long getId() {
@@ -51,7 +52,7 @@ public class TaskGroups extends Description {
         return tasks;
     }
 
-    void setTasks(Set<Task> tasks) {
+    public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
 
