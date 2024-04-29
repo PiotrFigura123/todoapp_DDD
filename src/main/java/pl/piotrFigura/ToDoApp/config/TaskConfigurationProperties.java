@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(value = "task")
-class MyProperties {
+public class TaskConfigurationProperties {
 
     private boolean allowMultipleTaskFromTemplate;
 

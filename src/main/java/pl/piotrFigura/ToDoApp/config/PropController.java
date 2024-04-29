@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 class PropController {
 
     private DataSourceProperties dataSourceProperties;
-    private MyProperties myProperties;
+    private TaskConfigurationProperties taskConfigurationProperties;
 
-    public PropController(DataSourceProperties dataSourceProperties, MyProperties myProperties) {
+    public PropController(DataSourceProperties dataSourceProperties, TaskConfigurationProperties taskConfigurationProperties) {
         this.dataSourceProperties = dataSourceProperties;
-        this.myProperties = myProperties;
+        this.taskConfigurationProperties = taskConfigurationProperties;
     }
 
     @GetMapping("/info/prop")
     boolean prop(){
-        return myProperties.isAllowMultipleTaskFromTemplate();
+        return taskConfigurationProperties.isAllowMultipleTaskFromTemplate();
     }
 
     @GetMapping("/info/url")

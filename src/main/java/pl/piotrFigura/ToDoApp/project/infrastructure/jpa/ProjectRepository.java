@@ -4,7 +4,7 @@ import java.util.Optional;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
 import java.util.List;
 
-interface ProjectRepository {
+public interface ProjectRepository {
     List<Project> findAll();
 
     Optional<Project> findById(Long id);

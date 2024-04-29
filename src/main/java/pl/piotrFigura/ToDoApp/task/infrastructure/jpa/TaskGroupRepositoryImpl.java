@@ -17,4 +17,6 @@ interface TaskGroupRepositoryImpl extends TaskGroupRepository, JpaRepository<Tas
     Optional<TaskGroups> findById(Long id);
 
     TaskGroups save(TaskGroups entity);
+
+    boolean existsByDoneIsFalseAndProject_Id(Long id);
 }

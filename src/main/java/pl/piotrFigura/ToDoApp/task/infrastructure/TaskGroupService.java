@@ -1,6 +1,7 @@
 package pl.piotrFigura.ToDoApp.task.infrastructure;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
@@ -9,6 +10,7 @@ import java.util.List;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
 @Service
+@RequestScope
 public class TaskGroupService {
 
     private TaskGroupRepository taskGroupRepository;
