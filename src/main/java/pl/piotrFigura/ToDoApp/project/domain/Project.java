@@ -26,6 +26,9 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private Set<TaskGroups> taskGroups;
 
+    public Project() {
+    }
+
     public Long getId() {
         return id;
     }
