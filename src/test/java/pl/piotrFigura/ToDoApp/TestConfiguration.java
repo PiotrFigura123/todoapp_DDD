@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
@@ -15,6 +16,7 @@ import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 class TestConfiguration {
 
     @Bean
+    @Primary
     @Profile("integration")
     TaskRepository testRepo() {
         return new TaskRepository() {

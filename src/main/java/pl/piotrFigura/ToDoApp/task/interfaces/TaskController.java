@@ -33,8 +33,9 @@ class TaskController {
 
     @GetMapping("/{id}")
     ResponseEntity<Task> readTask(@PathVariable Long id) {
-        return ResponseEntity.ok()
-            .body(taskRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("nie istnieje id")));
+        return taskRepository.findById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping()
