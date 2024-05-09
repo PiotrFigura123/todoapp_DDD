@@ -30,10 +30,13 @@ public class Task extends Description {
     private TaskGroups taskGroups;
     public Task() {
     }
-
-    public Task(String description, LocalDateTime deadline){
+    public Task(String description, LocalDateTime deadline) {
+    this(description,deadline, null);
+    }
+    public Task(String description, LocalDateTime deadline, TaskGroups groups){
         this.description = description;
         this.deadline = deadline;
+        if(groups != null)  this.taskGroups=groups;
     }
 
     public Long getId() {

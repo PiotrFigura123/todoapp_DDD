@@ -15,8 +15,13 @@ private Set<GroupTaskWriteModel> tasks;
 
 
     public TaskGroups toGroup(){
-        return new TaskGroups(description, tasks.stream()
-            .map(GroupTaskWriteModel::toTask)
-            .collect(Collectors.toSet()));
+        var result = new TaskGroups();
+        result.setDescription(description);
+        result.setTasks(
+            tasks.stream()
+                .map(source -> source.toTask(result))
+                .collect(Collectors.toSet())
+        );
+        return result;
     }
 }
