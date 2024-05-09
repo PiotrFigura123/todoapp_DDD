@@ -3,6 +3,7 @@ package pl.piotrFigura.ToDoApp.task.interfaces;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
@@ -35,6 +37,11 @@ class TaskController {
     ResponseEntity<Task> readTask(@PathVariable Long id) {
         return ResponseEntity.ok()
             .body(taskRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("nie istnieje id")));
+    }
+    @GetMapping(value = "/search/done", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<Task>> searchByDone(@RequestParam(defaultValue = "true") Boolean state){
+        return ResponseEntity.ok()
+            .body(taskRepository.findByDone(state));
     }
 
     @PostMapping()
