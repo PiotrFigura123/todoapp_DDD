@@ -45,6 +45,11 @@ class TestConfiguration {
             public boolean existsByTaskGroup(boolean isDone, Long groupId) {
                 return false;
             }
+
+            @Override
+            public List<Task> findByDone(boolean done) {
+                return new ArrayList<>(tasks.values());
+            }
         };
     }
 }
