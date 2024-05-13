@@ -10,14 +10,11 @@ import java.util.List;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
 @Service
-@RequestScope
+//@RequestScope
 public class TaskGroupService {
 
     private TaskGroupRepository taskGroupRepository;
     private TaskRepository taskRepository;
-
-    public TaskGroupService() {
-    }
 
     public TaskGroupService(TaskGroupRepository taskGroupRepository, TaskRepository taskRepository) {
         this.taskGroupRepository = taskGroupRepository;

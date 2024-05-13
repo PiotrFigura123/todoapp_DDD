@@ -16,4 +16,8 @@ interface TaskRepositoryImpl extends TaskRepository, JpaRepository<Task, Long> {
     boolean existsByTaskGroup(@Param("isDone") boolean isDone, @Param("id") Long groupId);
 
     List<Task> findByDone(@RequestParam boolean done);
+
+    @Override
+
+    List<Task> findAllByTaskGroups_Id(Long groupId);
 }

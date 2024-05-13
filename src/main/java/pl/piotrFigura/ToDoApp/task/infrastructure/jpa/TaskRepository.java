@@ -19,4 +19,6 @@ public interface TaskRepository {
     boolean existsByTaskGroup(@Param("isDone") boolean isDone, @Param("id") Long groupId);
 
     List<Task> findByDone(@RequestParam boolean done);
+
+    List<Task> findAllByTaskGroups_Id(Long groupId);
 }

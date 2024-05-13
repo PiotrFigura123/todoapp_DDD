@@ -24,6 +24,7 @@ import pl.piotrFigura.ToDoApp.config.TaskConfigurationProperties;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
 import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
+import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
@@ -163,4 +164,5 @@ class ProjectServiceTest {
         when(result.getSteps()).thenReturn(steps);
         return result;
     }
+
 }
