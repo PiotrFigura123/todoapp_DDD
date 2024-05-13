@@ -25,5 +25,6 @@ class LoggerFilter implements Filter {
           log.info("[doFilter] " + httpRequest.getMethod() + " " + httpRequest.getRequestURI());
       }
       filterChain.doFilter(servletRequest, servletResponse);
+      log.info("[doFilter 2]");
     }
 }
