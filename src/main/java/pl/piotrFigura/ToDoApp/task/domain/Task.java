@@ -26,21 +26,22 @@ public class Task extends Description {
     private Audit audit = new Audit();
 
     @ManyToOne
-    @JoinColumn(name = "task_groups_id", referencedColumnName = "id")
+    @JoinColumn(name = "task_groups", referencedColumnName = "id")
     private TaskGroups taskGroups;
     public Task() {
     }
 
-    public Task(String description, LocalDateTime deadline){
+    public Task(String description, LocalDateTime deadline, TaskGroups result){
         this.description = description;
         this.deadline = deadline;
+        this.taskGroups=result;
     }
 
     public Long getId() {
         return id;
     }
 
-    void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,11 +53,11 @@ public class Task extends Description {
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
-    TaskGroups getTaskGroups() {
+    public TaskGroups getTaskGroups() {
         return taskGroups;
     }
 
-    void setTaskGroups(TaskGroups taskGroups) {
+    public void setTaskGroups(TaskGroups taskGroups) {
         this.taskGroups = taskGroups;
     }
 

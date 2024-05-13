@@ -12,12 +12,11 @@ import java.util.List;
 interface TaskRepositoryImpl extends TaskRepository, JpaRepository<Task, Long> {
 
     @Override
-    @Query(nativeQuery = true, value = "select count(*)>0 from tasks where task_groups_id=:id and done=:isDone")
+    @Query(nativeQuery = true, value = "select count(*)>0 from tasks where task_groups=:id and done=:isDone")
     boolean existsByTaskGroup(@Param("isDone") boolean isDone, @Param("id") Long groupId);
 
     List<Task> findByDone(@RequestParam boolean done);
 
     @Override
-
     List<Task> findAllByTaskGroups_Id(Long groupId);
 }

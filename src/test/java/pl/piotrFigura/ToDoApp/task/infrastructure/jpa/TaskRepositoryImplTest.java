@@ -40,4 +40,10 @@ public class TaskRepositoryImplTest implements TaskRepository{
         return null;
     }
 
+    @Override
+    public List<Task> findAllByTaskGroups_Id(Long groupId) {
+        return List.of();
+    }
+
+
 }
