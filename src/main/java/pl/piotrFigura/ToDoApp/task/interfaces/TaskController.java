@@ -3,6 +3,7 @@ package pl.piotrFigura.ToDoApp.task.interfaces;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskService;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
 @Controller
@@ -23,14 +25,16 @@ import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 class TaskController {
 
     private final TaskRepository taskRepository;
+    private final TaskService service;
 
-    TaskController(TaskRepository taskRepository) {
+    TaskController(TaskRepository taskRepository, TaskService service) {
         this.taskRepository = taskRepository;
+        this.service = service;
     }
 
     @GetMapping()
-    ResponseEntity<List<Task>> readAllTasks() {
-        return ResponseEntity.ok().body(taskRepository.findAll());
+    CompletableFuture<ResponseEntity<List<Task>>> readAllTasks() {
+        return service.findAllAsync().thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/{id}")
