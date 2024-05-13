@@ -21,3 +21,8 @@ postgres:
       username: user
       password: password
       url: jdbc:postgresql://localhost:5435/toDoApp
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
