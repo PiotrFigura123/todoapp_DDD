@@ -41,7 +41,7 @@ public class Task extends Description {
         return id;
     }
 
-    public void setId(Long id) {
+    void setId(Long id) {
         this.id = id;
     }
 
@@ -53,11 +53,11 @@ public class Task extends Description {
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
-    public TaskGroups getTaskGroups() {
+    TaskGroups getTaskGroups() {
         return taskGroups;
     }
 
-    public void setTaskGroups(TaskGroups taskGroups) {
+    void setTaskGroups(TaskGroups taskGroups) {
         this.taskGroups = taskGroups;
     }
 

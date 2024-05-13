@@ -8,8 +8,6 @@ import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.contract.ProjectWriteModel;
 import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
 import java.util.List;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
-import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupTaskWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
@@ -38,7 +36,6 @@ public class ProjectService {
     }
 
     public Project create(final ProjectWriteModel project){
-
         return projectRepository.save(project.toProject());
     }
 

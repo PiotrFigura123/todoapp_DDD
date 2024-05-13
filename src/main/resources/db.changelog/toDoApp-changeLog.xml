@@ -6,4 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <includeAll path="db.changelog/changes/"/>
+
+    <!-- for spring dev-init profle -->
+<!--    <include file="/db.changelog/teleconsultations-changeLog-dev-init.xml" context="dev-init"/>-->
 </databaseChangeLog>

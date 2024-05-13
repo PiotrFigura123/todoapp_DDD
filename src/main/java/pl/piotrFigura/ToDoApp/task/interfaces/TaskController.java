@@ -39,8 +39,9 @@ class TaskController {
 
     @GetMapping("/{id}")
     ResponseEntity<Task> readTask(@PathVariable Long id) {
-        return ResponseEntity.ok()
-            .body(taskRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("nie istnieje id")));
+        return taskRepository.findById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping(value = "/search/done", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<Task>> searchByDone(@RequestParam(defaultValue = "true") Boolean state){

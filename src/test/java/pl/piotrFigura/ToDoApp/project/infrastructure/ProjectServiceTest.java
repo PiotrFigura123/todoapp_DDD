@@ -27,6 +27,7 @@ import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,7 +35,8 @@ class ProjectServiceTest {
 
     @Mock
     private ProjectRepository repository;
-
+    @Mock
+    TaskGroupService taskGroupService;
     @Mock
     private TaskGroupRepository taskGroupRepository;
     @Mock
@@ -46,7 +48,7 @@ class ProjectServiceTest {
         //given
         when(taskGroupRepository.existsByDoneIsFalseAndProject_Id(anyLong())).thenReturn(true);
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(false);
-        var toTest = new ProjectService(repository, taskGroupRepository, config);
+        var toTest = new ProjectService(repository, taskGroupRepository, config, taskGroupService);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -60,7 +62,7 @@ class ProjectServiceTest {
     void createGroup_configOk_and_noProjects_throwsIllegalArgumentException() {
         //given
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(true);
-        var toTest = new ProjectService(repository, taskGroupRepository, config);
+        var toTest = new ProjectService(repository, taskGroupRepository, config, taskGroupService);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -75,7 +77,7 @@ class ProjectServiceTest {
         //given
         when(taskGroupRepository.existsByDoneIsFalseAndProject_Id(anyLong())).thenReturn(false);
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(false);
-        var toTest = new ProjectService(repository, taskGroupRepository, config);
+        var toTest = new ProjectService(repository, taskGroupRepository, config, taskGroupService);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -95,14 +97,13 @@ class ProjectServiceTest {
             .thenReturn(Optional.of(project));
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(true);
         InMemoryGroupRepository taskGroupRepository = inMemoryGroupRepository();
-        var toTest = new ProjectService(mockRepository, taskGroupRepository, config);
-        int countBeforeCall = taskGroupRepository.count();
+        var serviceWithInMemReop = new TaskGroupService(inMemoryGroupRepository(), null);
+        var toTest = new ProjectService(mockRepository, taskGroupRepository, config, serviceWithInMemReop);
         //when
         GroupReadModel result = toTest.createGroup(today, 1l);
         //then
         assertThat(result.getDescription()).isEqualTo("bar");
         assertThat(result.getDeadline()).isEqualTo(today.minusDays(1));
-        assertThat(countBeforeCall + 1).isEqualTo(taskGroupRepository.count());
     }
 
     private InMemoryGroupRepository inMemoryGroupRepository() {

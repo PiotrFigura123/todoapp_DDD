@@ -13,7 +13,8 @@ public class GroupTaskWriteModel {
     private String description;
     private LocalDateTime deadline;
 
-    public Task toTask(TaskGroups result){
-        return new Task(description, deadline, result);
+    public Task toTask(TaskGroups group){
+
+        return new Task(description, deadline, group);
     }
 }
