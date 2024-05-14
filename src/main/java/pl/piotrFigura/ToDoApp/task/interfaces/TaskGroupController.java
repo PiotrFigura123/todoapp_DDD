@@ -22,8 +22,6 @@ import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
-import pl.piotrFigura.ToDoApp.task.infrastructure.TaskService;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
 @RestController
