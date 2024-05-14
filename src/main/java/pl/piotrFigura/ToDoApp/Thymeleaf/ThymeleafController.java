@@ -2,12 +2,15 @@ package pl.piotrFigura.ToDoApp.Thymeleaf;
 
 
 import jakarta.validation.Valid;
+import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
@@ -17,10 +20,10 @@ import pl.piotrFigura.ToDoApp.project.infrastructure.ProjectService;
 
 @Controller
 @RequestMapping("/projects")
-class ProjectController {
+class ThymeleafController {
     private final ProjectService service;
 
-    ProjectController(ProjectService service) {
+    ThymeleafController(ProjectService service) {
         this.service = service;
     }
 
@@ -46,6 +49,21 @@ class ProjectController {
     @PostMapping(params = "addStep")
     String addProjectStep(@ModelAttribute("project") ProjectWriteModel current){
         current.getSteps().add(new ProjectSteps());
+        return "projects";
+    }
+    @PostMapping("/{id}")
+    String createGroup(
+        @ModelAttribute("project") ProjectWriteModel current,
+        Model model,
+        @PathVariable Long id,
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime deadline
+    ){
+        try{
+        service.createGroup(deadline, id);
+        model.addAttribute("message", "Dodano grupe!");
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            model.addAttribute("message", "Blad tworzenia grupy z projektu");
+        }
         return "projects";
     }
     @ModelAttribute("projects")
