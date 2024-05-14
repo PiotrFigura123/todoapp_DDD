@@ -26,7 +26,7 @@ public class TaskGroups extends Description {
     private Long id;
     @Embedded
     private Audit audit = new Audit();
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "taskGroups")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taskGroups")
     private Set<Task> tasks;
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
