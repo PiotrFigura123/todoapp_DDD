@@ -25,9 +25,9 @@ class TaskControllerE2ETest {
     private MockMvc mockMvc;
     @Autowired
     private TaskRepository taskRepository;
-
     public static final String ENDPOINT_URI_GET_EVENTS = "/tasks";
     private ObjectMapper objectMapper = new ObjectMapper();
+
     @Test
     @DisplayName("Should return status 400 after receiving request without body and do not return tasks")
     void taskControllerFirstTest() throws Exception {
@@ -37,7 +37,6 @@ class TaskControllerE2ETest {
             MockMvcRequestBuilders.post(ENDPOINT_URI_GET_EVENTS)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE));
-
         //then
         resultActions.andExpect(status().is4xxClientError());
     }
@@ -45,8 +44,8 @@ class TaskControllerE2ETest {
     @DisplayName("Should return status 200 and return all tasks")
     void taskControllerSecondTest() throws Exception {
         //given
-        taskRepository.save(new Task("foo", LocalDateTime.now()));
-        taskRepository.save(new Task("bat", LocalDateTime.now()));
+        taskRepository.save(new Task("foo", LocalDateTime.now(), null));
+        taskRepository.save(new Task("bat", LocalDateTime.now(), null));
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT_URI_GET_EVENTS));
         //then
@@ -56,43 +55,42 @@ class TaskControllerE2ETest {
     @DisplayName("Should return status 200 and return first task")
     void taskControllerThirdTest() throws Exception {
         //given
-        taskRepository.save(new Task("foo", LocalDateTime.now()));
-        taskRepository.save(new Task("bat", LocalDateTime.now()));
+        taskRepository.save(new Task("foo", LocalDateTime.now(), null));
+        taskRepository.save(new Task("bat", LocalDateTime.now(), null));
         Long taskId = 1l;
         //when
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT_URI_GET_EVENTS +"/{id}", taskId));
+        ResultActions resultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get(ENDPOINT_URI_GET_EVENTS + "/{id}", taskId));
         //then
         resultActions.andExpect(status().isOk()).andExpect(jsonPath("$.description").value("foo"));
     }
-
     @Test
     @DisplayName("Should return status 400 and return IllegalArgumentException")
     void taskControllerFourthTest() throws Exception {
         //given
-        taskRepository.save(new Task("foo", LocalDateTime.now()));
-        taskRepository.save(new Task("bat", LocalDateTime.now()));
+        taskRepository.save(new Task("foo", LocalDateTime.now(), null));
+        taskRepository.save(new Task("bat", LocalDateTime.now(), null));
         Long taskId = 3l;
         //when + then
-         mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT_URI_GET_EVENTS +"/{id}", taskId))
-             .andExpect(status().is4xxClientError());
+        mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT_URI_GET_EVENTS + "/{id}", taskId))
+            .andExpect(status().is4xxClientError());
     }
     @Test
     @DisplayName("Should return status 200 and add new task to repo")
     void taskControllerFifthTest() throws Exception {
         //given
         objectMapper.findAndRegisterModules();
-        taskRepository.save(new Task("foo", LocalDateTime.now()));
-        taskRepository.save(new Task("bat", LocalDateTime.now()));
-        Task newTask = new Task("new", LocalDateTime.now());
+        taskRepository.save(new Task("foo", LocalDateTime.now(), null));
+        taskRepository.save(new Task("bat", LocalDateTime.now(), null));
+        Task newTask = new Task("new", LocalDateTime.now(), null);
         int beginSize = taskRepository.findAll().size();
         //when
-
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT_URI_GET_EVENTS)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(newTask)));
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .accept(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(newTask)));
         //then
         resultActions.andExpect(status().isCreated());
-        assertEquals(beginSize+1, taskRepository.findAll().size());
+        assertEquals(beginSize + 1, taskRepository.findAll().size());
     }
 }

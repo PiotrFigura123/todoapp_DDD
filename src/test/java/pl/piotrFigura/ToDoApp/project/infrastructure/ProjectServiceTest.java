@@ -48,7 +48,7 @@ class ProjectServiceTest {
         //given
         when(taskGroupRepository.existsByDoneIsFalseAndProject_Id(anyLong())).thenReturn(true);
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(false);
-        var toTest = new ProjectService(repository, taskGroupRepository, config, taskGroupService);
+        var toTest = new ProjectService(taskGroupService, repository, taskGroupRepository, config);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -62,7 +62,7 @@ class ProjectServiceTest {
     void createGroup_configOk_and_noProjects_throwsIllegalArgumentException() {
         //given
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(true);
-        var toTest = new ProjectService(repository, taskGroupRepository, config, taskGroupService);
+        var toTest = new ProjectService(taskGroupService, repository, taskGroupRepository, config);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -77,7 +77,7 @@ class ProjectServiceTest {
         //given
         when(taskGroupRepository.existsByDoneIsFalseAndProject_Id(anyLong())).thenReturn(false);
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(false);
-        var toTest = new ProjectService(repository, taskGroupRepository, config, taskGroupService);
+        var toTest = new ProjectService(taskGroupService, repository, taskGroupRepository, config);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -98,7 +98,7 @@ class ProjectServiceTest {
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(true);
         InMemoryGroupRepository taskGroupRepository = inMemoryGroupRepository();
         var serviceWithInMemReop = new TaskGroupService(inMemoryGroupRepository(), null);
-        var toTest = new ProjectService(mockRepository, taskGroupRepository, config, serviceWithInMemReop);
+        var toTest = new ProjectService(serviceWithInMemReop, mockRepository, taskGroupRepository, config);
         //when
         GroupReadModel result = toTest.createGroup(today, 1l);
         //then
