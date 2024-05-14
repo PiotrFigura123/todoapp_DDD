@@ -2,6 +2,7 @@ package pl.piotrFigura.ToDoApp.project.domain.contract;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashSet;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,11 @@ public class ProjectWriteModel {
     private String description;
 
     @Valid
-    private List<ProjectSteps> steps;
+    private List<ProjectSteps> steps = new ArrayList<>();
+
+    public ProjectWriteModel(){
+        steps.add(new ProjectSteps());
+    }
 
     public Project toProject(){
         var result = new Project();
