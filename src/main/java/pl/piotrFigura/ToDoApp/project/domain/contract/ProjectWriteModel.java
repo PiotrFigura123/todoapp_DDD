@@ -1,19 +1,15 @@
 package pl.piotrFigura.ToDoApp.project.domain.contract;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.HashSet;
-import lombok.Getter;
-import lombok.Setter;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
 import java.util.List;
 
-@Getter
-@Setter
 public class ProjectWriteModel {
-    @NotNull(message = "Project description must not be empty")
+    @NotBlank(message = "Project description must not be empty")
     private String description;
 
     @Valid
@@ -29,5 +25,21 @@ public class ProjectWriteModel {
         steps.forEach(step -> step.setProject(result));
         result.setSteps(new HashSet<>(steps));
         return result;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<ProjectSteps> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<ProjectSteps> steps) {
+        this.steps = steps;
     }
 }

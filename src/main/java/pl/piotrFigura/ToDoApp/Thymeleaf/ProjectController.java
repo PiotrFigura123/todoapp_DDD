@@ -1,7 +1,10 @@
 package pl.piotrFigura.ToDoApp.Thymeleaf;
 
+
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +31,13 @@ class ProjectController {
         return "projects";
     }
     @PostMapping
-    String addProject(@ModelAttribute("project") ProjectWriteModel current, Model model){
+    String addProject(
+        @ModelAttribute("project") @Valid ProjectWriteModel current,
+        BindingResult bindingResult,
+        Model model){
+        if (bindingResult.hasErrors()){
+            return "projects";
+        }
         service.create(current);
         model.addAttribute("project", new ProjectWriteModel());
         model.addAttribute("message", "Dodano projekt");
