@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,14 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.piotrFigura.ToDoApp.project.domain.contract.ProjectWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupTaskWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
+import pl.piotrFigura.ToDoApp.util.GlobalControllerAdviceProcessing;
 
+@GlobalControllerAdviceProcessing
 @Controller
 @RequestMapping("/groups")
 class TaskGroupController {
@@ -95,14 +95,6 @@ class TaskGroupController {
         return "groups";
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity<String> handleIllegalArgument(IllegalArgumentException e){
-        return ResponseEntity.notFound().build();
-    }
-    @ExceptionHandler(IllegalStateException.class)
-    ResponseEntity<String> handleIllegalState(IllegalStateException e){
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
     @ModelAttribute("groups")
     List<GroupReadModel> getGroups() {
     return service.readAll();
