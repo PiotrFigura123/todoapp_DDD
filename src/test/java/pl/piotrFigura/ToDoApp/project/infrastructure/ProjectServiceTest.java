@@ -27,6 +27,7 @@ import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +48,7 @@ class ProjectServiceTest {
         //given
         when(taskGroupRepository.existsByDoneIsFalseAndProject_Id(anyLong())).thenReturn(true);
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(false);
-        var toTest = new ProjectService(repository, taskGroupRepository, config);
+        var toTest = new ProjectService(taskGroupService, repository, taskGroupRepository, config);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then

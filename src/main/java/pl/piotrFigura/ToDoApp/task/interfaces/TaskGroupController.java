@@ -83,9 +83,15 @@ class TaskGroupController {
     }
 
 
-    @PostMapping(params = "addStep", produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = "addTask", produces = MediaType.TEXT_HTML_VALUE)
     String addGroupTask(@ModelAttribute("group") GroupWriteModel current){
         current.getTasks().add(new GroupTaskWriteModel());
+        return "groups";
+    }
+
+    @PostMapping(params = "removeTask", produces = MediaType.TEXT_HTML_VALUE)
+    String removeGroupTask(@ModelAttribute("group") GroupWriteModel current){
+        current.getTasks().remove(current.getTasks().size()-1);
         return "groups";
     }
 

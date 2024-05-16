@@ -67,9 +67,14 @@
               <input type="datetime-local" th:field="*{tasks[__${taskStat.index}__].deadline}" th:errorclass="'Bdc(red)'" />
             </label>
           </fieldset>
-        <div>
-          <button type="submit" name="addTask">+</button>
-        </div>
+          <div>
+            <div>
+              <button type="submit" name="addTask">+</button>
+            </div>
+            <div>
+              <button type="submit" name="removeTask">-</button>
+            </div>
+          </div>
       <p>
         <button type="submit" >Dodaj</button>
         <button type="reset">Wyczysc</button>
