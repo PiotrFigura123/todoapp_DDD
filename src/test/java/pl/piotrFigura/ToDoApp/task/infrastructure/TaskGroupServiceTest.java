@@ -26,7 +26,7 @@ class TaskGroupServiceTest {
     void toggleGroup() {
     //given
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.existsByTaskGroup(anyBoolean(), anyLong())).thenReturn( true );
+        when(mockTaskRepository.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( true );
         var toTest = new TaskGroupService(null, mockTaskRepository);
         //when
         var exception = catchThrowable(() -> toTest.toggleGroup( 1l));
@@ -41,7 +41,7 @@ class TaskGroupServiceTest {
     void toggleGroup_wrongId_throwsIllegalArgumentException() {
         //given
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.existsByTaskGroup(anyBoolean(), anyLong())).thenReturn( false );
+        when(mockTaskRepository.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( false );
         var mockTaskGroupRepository = mock(TaskGroupRepository.class);
         when(mockTaskGroupRepository.findById(anyLong())).thenReturn(Optional.empty());
         var toTest = new TaskGroupService(mockTaskGroupRepository, mockTaskRepository);
@@ -58,7 +58,7 @@ class TaskGroupServiceTest {
     void should_toggleGroup() {
         //given
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.existsByTaskGroup(anyBoolean(), anyLong())).thenReturn( false );
+        when(mockTaskRepository.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( false );
         var group = new TaskGroups();
         var beforeToggle = group.isDone();
         var mockTaskGroupRepository = mock(TaskGroupRepository.class);

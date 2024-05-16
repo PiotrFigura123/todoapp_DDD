@@ -22,7 +22,7 @@ public class ProjectSteps {
     private Integer daysToDeadline;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     public Long getId() {

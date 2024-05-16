@@ -10,6 +10,6 @@ import pl.piotrFigura.ToDoApp.project.domain.Project;
 interface ProjectRepositoryImpl extends ProjectRepository, JpaRepository<Project, Long> {
 
     @Override
-    @Query("from Project p join fetch p.steps")
+    @Query("select distinct p from Project p join fetch p.steps")
     List<Project> findAll();
 }

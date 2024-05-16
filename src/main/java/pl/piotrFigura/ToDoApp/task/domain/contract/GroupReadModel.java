@@ -4,13 +4,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 
-@Getter
-@Setter
 public class GroupReadModel {
     private Long id;
     private String description;
@@ -28,5 +24,37 @@ public class GroupReadModel {
             tasks = taskGroups.getTasks().stream()
                 .map(GroupTaskReadModel::new)
                 .collect(Collectors.toSet());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    public Set<GroupTaskReadModel> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<GroupTaskReadModel> tasks) {
+        this.tasks = tasks;
     }
 }

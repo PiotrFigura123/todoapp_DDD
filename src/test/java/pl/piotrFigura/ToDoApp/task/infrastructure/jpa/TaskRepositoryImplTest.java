@@ -31,18 +31,18 @@ public class TaskRepositoryImplTest implements TaskRepository{
     }
 
     @Override
-    public boolean existsByTaskGroup(boolean isDone, Long groupId) {
-        return false;
-    }
-
-    @Override
     public List<Task> findByDone(boolean done) {
         return null;
     }
 
     @Override
-    public List<Task> findAllByTaskGroups_Id(Long groupId) {
+    public List<Task> findAllByGroup_Id(Long groupId) {
         return List.of();
+    }
+
+    @Override
+    public boolean existsByDoneIsFalseAndGroup_Id(Long groupId) {
+        return false;
     }
 
 

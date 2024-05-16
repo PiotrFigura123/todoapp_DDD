@@ -3,7 +3,6 @@ package pl.piotrFigura.ToDoApp.task.domain;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,7 +15,6 @@ import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.util.Audit;
 import pl.piotrFigura.ToDoApp.util.Description;
 
-
 @Entity
 @Table(name = "task_groups")
 public class TaskGroups extends Description {
@@ -26,18 +24,13 @@ public class TaskGroups extends Description {
     private Long id;
     @Embedded
     private Audit audit = new Audit();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taskGroups")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private Set<Task> tasks;
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     public TaskGroups() {
-    }
-
-    public TaskGroups(String description, Set<Task> tasks) {
-        this.description = description;
-        this.tasks = tasks;
     }
 
     public Long getId() {

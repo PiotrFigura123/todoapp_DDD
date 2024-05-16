@@ -9,7 +9,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import lombok.Builder;
 import pl.piotrFigura.ToDoApp.util.Audit;
 import pl.piotrFigura.ToDoApp.util.Description;
 
@@ -26,15 +25,21 @@ public class Task extends Description {
     private Audit audit = new Audit();
 
     @ManyToOne
-    @JoinColumn(name = "task_groups", referencedColumnName = "id")
-    private TaskGroups taskGroups;
+    @JoinColumn(name = "task_groups_id")
+    private TaskGroups group;
     public Task() {
     }
 
-    public Task(String description, LocalDateTime deadline, TaskGroups result){
+    public Task(LocalDateTime deadline, String description) {
+        this(description, deadline, null);
+    }
+
+    public Task(String description, LocalDateTime deadline, TaskGroups group){
         this.description = description;
         this.deadline = deadline;
-        this.taskGroups=result;
+        if(group != null){
+            this.group =group;
+        }
     }
 
     public Long getId() {
@@ -53,16 +58,18 @@ public class Task extends Description {
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
-    public TaskGroups getTaskGroups() {
-        return taskGroups;
+    public TaskGroups getGroup() {
+        return group;
     }
 
-    public void setTaskGroups(TaskGroups taskGroups) {
-        this.taskGroups = taskGroups;
+    public void setGroup(TaskGroups taskGroups) {
+        this.group = taskGroups;
     }
 
     public void updateFrom(final Task source){
         deadline = source.deadline;
-        taskGroups = source.taskGroups;
+        done = source.done;
+        description = source.description;
+        group = source.group;
     }
 }

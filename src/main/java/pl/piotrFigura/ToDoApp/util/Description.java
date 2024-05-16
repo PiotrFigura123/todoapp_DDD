@@ -2,13 +2,11 @@ package pl.piotrFigura.ToDoApp.util;
 
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 
 @MappedSuperclass
 public abstract class Description {
 
     @NotBlank(message = "description can't be blank")
-    @NotEmpty(message = "description can't be empty")
     protected String description;
     protected boolean done;
 

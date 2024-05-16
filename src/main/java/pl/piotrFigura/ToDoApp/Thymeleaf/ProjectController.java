@@ -3,12 +3,13 @@ package pl.piotrFigura.ToDoApp.Thymeleaf;
 
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import java.util.List;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,10 +21,10 @@ import pl.piotrFigura.ToDoApp.project.infrastructure.ProjectService;
 
 @Controller
 @RequestMapping("/projects")
-class ThymeleafController {
+class ProjectController {
     private final ProjectService service;
 
-    ThymeleafController(ProjectService service) {
+    ProjectController(ProjectService service) {
         this.service = service;
     }
 
@@ -41,7 +42,7 @@ class ThymeleafController {
         if (bindingResult.hasErrors()){
             return "projects";
         }
-        service.create(current);
+        service.save(current);
         model.addAttribute("project", new ProjectWriteModel());
         model.addAttribute("projects", getProjects());
         model.addAttribute("message", "Dodano projekt");
@@ -52,15 +53,21 @@ class ThymeleafController {
         current.getSteps().add(new ProjectSteps());
         return "projects";
     }
+
+    @PostMapping(params = "removeStep")
+    String removeProjectStep(@ModelAttribute("project") ProjectWriteModel current){
+        current.getSteps().remove(current.getSteps().size()-1);
+        return "projects";
+    }
     @PostMapping("/{id}")
     String createGroup(
         @ModelAttribute("project") ProjectWriteModel current,
         Model model,
-        @PathVariable Long id,
+        @PathVariable String id,
         @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime deadline
     ){
         try{
-        service.createGroup(deadline, id);
+        service.createGroup(deadline, Long.valueOf(id));
         model.addAttribute("message", "Dodano grupe!");
         } catch (IllegalStateException | IllegalArgumentException e) {
             model.addAttribute("message", "Blad tworzenia grupy z projektu");
@@ -70,5 +77,5 @@ class ThymeleafController {
     @ModelAttribute("projects")
     List<Project> getProjects(){
         return service.readAll();
+        }
     }
-}
