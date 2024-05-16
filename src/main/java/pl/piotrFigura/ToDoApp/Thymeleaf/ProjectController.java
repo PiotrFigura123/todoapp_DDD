@@ -1,6 +1,7 @@
 package pl.piotrFigura.ToDoApp.Thymeleaf;
 
 
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -59,6 +60,7 @@ class ProjectController {
         current.getSteps().remove(current.getSteps().size()-1);
         return "projects";
     }
+    @Timed(value = "project.crate.group", histogram = true, percentiles = {0.5, 0.95, 0.99})
     @PostMapping("/{id}")
     String createGroup(
         @ModelAttribute("project") ProjectWriteModel current,

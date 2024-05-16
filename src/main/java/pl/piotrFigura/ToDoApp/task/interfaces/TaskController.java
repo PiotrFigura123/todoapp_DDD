@@ -70,7 +70,7 @@ class TaskController {
 
     @Transactional //na poczatku BEGIN a na koniec COMMIT na bazie
     @PatchMapping("/{id}")
-    public ResponseEntity<Task> toggleTask(@PathVariable Long id) {
+    ResponseEntity<Task> toggleTask(@PathVariable Long id) {
         if (!taskRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
