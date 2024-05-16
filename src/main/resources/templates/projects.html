@@ -33,7 +33,7 @@
       <ul class="P(0)">
         <li th:each="step : ${project.steps}" th:text="|${step.description} (${step.daysToDeadline} dni)|"></li>
       </ul>
-      <form action="#" method="post" th:action="@{/projects/{projectId}(prjectId=${project.id})}">
+      <form action="#" method="post" th:action="@{/projects/{projectId}(projectId=${project.id})}">
         <label>Deadline
         <input name="deadline" type="datetime-local">
         </label>
@@ -58,9 +58,14 @@
               <input type="number" th:field="*{steps[__${stepStat.index}__].daysToDeadline}" th:errorclass="'Bdc(red)'" />
             </label>
           </fieldset>
-        <div>
-          <button type="submit" name="addStep">+</button>
-        </div>
+          <div>
+            <div>
+              <button type="submit" name="addStep">+</button>
+            </div>
+              <div>
+                <button type="submit" name="removeStep">-</button>
+              </div>
+          </div>
       <p>
         <button type="submit" >Dodaj</button>
         <button type="reset">Wyczysc</button>
