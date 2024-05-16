@@ -18,13 +18,11 @@ import org.springframework.stereotype.Component;
 class LoggerFilter implements Filter {
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-        throws IOException, ServletException {
-      if(servletRequest instanceof HttpServletRequest){
-          var httpRequest = (HttpServletRequest) servletRequest;
-          log.info("[doFilter] " + httpRequest.getMethod() + " " + httpRequest.getRequestURI());
-      }
-      filterChain.doFilter(servletRequest, servletResponse);
-      log.info("[doFilter 2]");
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
+        if (request instanceof HttpServletRequest) {
+            var httpRequest = (HttpServletRequest) request;
+            log.info("[doFilter] " + httpRequest.getMethod() + " " + httpRequest.getRequestURI());
+        }
+        chain.doFilter(request, response);
     }
 }

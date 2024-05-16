@@ -2,7 +2,6 @@ package pl.piotrFigura.ToDoApp.project.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,14 +16,11 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String description;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectSteps> steps;
-
     @OneToMany(mappedBy = "project")
-    private Set<TaskGroups> taskGroups;
+    private Set<TaskGroups> groups;
 
     public Project() {
     }
@@ -32,31 +28,24 @@ public class Project {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Set<TaskGroups> getTaskGroups() {
-        return taskGroups;
+    public Set<TaskGroups> getGroups() {
+        return groups;
     }
-
-    public void setTaskGroups(Set<TaskGroups> taskGroups) {
-        this.taskGroups = taskGroups;
+    public void setGroups(Set<TaskGroups> taskGroups) {
+        this.groups = taskGroups;
     }
-
     public Set<ProjectSteps> getSteps() {
         return steps;
     }
-
     public void setSteps(Set<ProjectSteps> project) {
         this.steps = project;
     }

@@ -1,22 +1,25 @@
 package pl.piotrFigura.ToDoApp.project.infrastructure;
 
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import pl.piotrFigura.ToDoApp.config.TaskConfigurationProperties;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.contract.ProjectWriteModel;
 import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
-import java.util.List;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupTaskWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
 
-
 @Service
 public class ProjectService {
+
+    private TaskGroupService taskGroupService;
+    private ProjectRepository projectRepository;
+    private TaskGroupRepository taskGroupRepository;
+    private TaskConfigurationProperties config;
 
     public ProjectService(TaskGroupService taskGroupService, ProjectRepository projectRepository,
         TaskGroupRepository taskGroupRepository, TaskConfigurationProperties config) {
@@ -25,17 +28,11 @@ public class ProjectService {
         this.taskGroupRepository = taskGroupRepository;
         this.config = config;
     }
-
-    private TaskGroupService taskGroupService;
-    private ProjectRepository projectRepository;
-    private TaskGroupRepository taskGroupRepository;
-    private TaskConfigurationProperties config;
-
     public List<Project> readAll(){
         return projectRepository.findAll();
     }
 
-    public Project create(final ProjectWriteModel project){
+    public Project save(final ProjectWriteModel project){
         return projectRepository.save(project.toProject());
     }
 
@@ -54,7 +51,7 @@ public class ProjectService {
                             task.setDescription(projectSteps.getDescription());
                             task.setDeadline(deadline.plusDays(projectSteps.getDaysToDeadline()));
                             return task;
-                        }).collect(Collectors.toSet())
+                        }).toList()
                 );
                 return taskGroupService.crateGroup(targetGroup, project);
             }).orElseThrow(()-> new IllegalArgumentException("Project with given id not found"));

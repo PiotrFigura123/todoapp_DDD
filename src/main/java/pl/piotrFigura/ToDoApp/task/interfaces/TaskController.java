@@ -3,7 +3,6 @@ package pl.piotrFigura.ToDoApp.task.interfaces;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,8 +32,8 @@ class TaskController {
     }
 
     @GetMapping()
-    CompletableFuture<ResponseEntity<List<Task>>> readAllTasks() {
-        return service.findAllAsync().thenApply(ResponseEntity::ok);
+    ResponseEntity<List<Task>> readAllTasks() {
+        return ResponseEntity.ok().body(taskRepository.findAll());
     }
 
     @GetMapping("/{id}")
@@ -50,7 +49,7 @@ class TaskController {
     }
 
     @PostMapping()
-    ResponseEntity<Task> createTast(@Valid @RequestBody Task toCreate) {
+    ResponseEntity<Task> createTask(@Valid @RequestBody Task toCreate) {
         Task result = taskRepository.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
