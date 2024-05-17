@@ -23,5 +23,7 @@ public abstract class Description {
         return done;
     }
 
-
+    public void setDone(boolean done) {
+        this.done = done;
+    }
 }
