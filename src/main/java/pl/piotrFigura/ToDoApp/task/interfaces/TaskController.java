@@ -3,6 +3,7 @@ package pl.piotrFigura.ToDoApp.task.interfaces;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,9 +27,11 @@ class TaskController {
     private final TaskRepository taskRepository;
     private final TaskService service;
 
-    TaskController(TaskRepository taskRepository, TaskService service) {
+    private final ApplicationEventPublisher publisher;
+    TaskController(TaskRepository taskRepository, TaskService service, ApplicationEventPublisher publisher) {
         this.taskRepository = taskRepository;
         this.service = service;
+        this.publisher = publisher;
     }
 
     @GetMapping()
@@ -75,7 +78,8 @@ class TaskController {
             return ResponseEntity.notFound().build();
         }
         taskRepository.findById(id)
-                .ifPresent(task -> task.setDone(!task.isDone()));
+            .map(Task::toggle)
+                .ifPresent(publisher::publishEvent);
         return ResponseEntity.noContent().build();
     }
 }

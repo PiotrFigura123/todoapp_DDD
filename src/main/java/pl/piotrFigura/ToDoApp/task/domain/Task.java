@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import pl.piotrFigura.ToDoApp.event.TaskEvent;
 import pl.piotrFigura.ToDoApp.util.Audit;
 import pl.piotrFigura.ToDoApp.util.Description;
 
@@ -71,5 +72,9 @@ public class Task extends Description {
         done = source.done;
         description = source.description;
         group = source.group;
+    }
+    public TaskEvent toggle() {
+        this.done = !this.done;
+        return TaskEvent.changed(this);
     }
 }
