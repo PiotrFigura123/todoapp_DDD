@@ -13,4 +13,6 @@ public interface TaskGroupRepository {
     TaskGroups save(TaskGroups entity);
 
     boolean existsByDoneIsFalseAndProject_Id(Long id);
+
+    boolean existsByDescription(String description);
 }

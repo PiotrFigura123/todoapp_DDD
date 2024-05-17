@@ -24,7 +24,6 @@ import pl.piotrFigura.ToDoApp.config.TaskConfigurationProperties;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
 import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
@@ -150,6 +149,12 @@ class ProjectServiceTest {
                 .filter(group -> !group.isDone())
                 .anyMatch(group -> group.getProject() != null && group.getProject().getId() == id);
         }
+
+        @Override
+        public boolean existsByDescription(String description) {
+            return map.values().stream()
+                .anyMatch(group -> group.getDescription().equals(description));
+        }
     }
 
     private Project projectWith(String projectDescription, Set<Integer> daysToDeadline) {
@@ -165,5 +170,6 @@ class ProjectServiceTest {
         result.setSteps(steps);
         return result;
     }
+
 
 }

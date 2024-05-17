@@ -11,7 +11,6 @@ public class Audit {
     private LocalDateTime updatedOn;
     private LocalDateTime createdOn;
 
-
     @PrePersist
     private void setCreatedOnTime(){
         createdOn = LocalDateTime.now();
