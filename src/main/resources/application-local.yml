@@ -25,3 +25,8 @@ management:
     web:
       exposure:
         include: '*'
+keyckoal:
+  auth-server-url: 'http://localhost:8189/auth'
+  realm: 'TodoApp'
+  resource: 'todo-app-client'
+  public-client: true
