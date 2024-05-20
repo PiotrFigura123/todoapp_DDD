@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import pl.piotrFigura.ToDoApp.task.infrastructure.TaskService;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
 @Controller
+@PreAuthorize("hasRole('ROLE_USER')")
 @RequestMapping("/tasks")
 class TaskController {
 
