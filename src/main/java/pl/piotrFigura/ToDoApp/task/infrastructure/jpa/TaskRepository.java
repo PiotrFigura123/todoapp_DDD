@@ -19,4 +19,7 @@ public interface TaskRepository {
 
     List<Task> findAllByGroup_Id(Long groupId);
     boolean existsByDoneIsFalseAndGroup_Id(Long groupId);
+
+    void deleteById(Long id);
 }
+

@@ -2,12 +2,14 @@ package pl.piotrFigura.ToDoApp.project.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
+import java.util.stream.Collectors;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 
 @Entity
@@ -17,7 +19,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    @OneToMany( cascade = CascadeType.ALL, mappedBy = "project")
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
     private Set<ProjectSteps> steps;
     @OneToMany(mappedBy = "project")
     private Set<TaskGroups> groups;
@@ -44,9 +46,25 @@ public class Project {
         this.groups = taskGroups;
     }
     public Set<ProjectSteps> getSteps() {
-        return steps;
+        return steps.stream().map(original -> {
+            var result = new ProjectSteps(original.getDescription(), original.getDaysToDeadline(), original.getProject());
+            result.setId(original.getId());
+            return result;
+        }).collect(Collectors.toUnmodifiableSet());
     }
-    public void setSteps(Set<ProjectSteps> project) {
-        this.steps = project;
+    public void addStep(ProjectSteps step){
+        if(steps.contains(step)){
+            return;
+        }
+        steps.add(step);
+        step.setProject(this);
+    }
+    public void removeStep(ProjectSteps step){
+        if(!steps.contains(step)){
+            return;
+        }
+        steps.remove(step);
+        step.setProject(null);
+
     }
 }

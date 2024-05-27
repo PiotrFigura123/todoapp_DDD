@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import pl.piotrFigura.ToDoApp.event.TaskEvent;
 import pl.piotrFigura.ToDoApp.util.Audit;
@@ -28,10 +29,12 @@ public class Task extends Description {
     @ManyToOne
     @JoinColumn(name = "task_groups_id")
     private TaskGroups group;
+
     public Task() {
     }
 
-    public Task(LocalDateTime deadline, String description) {
+    public Task(LocalDateTime deadline, @NotNull String description) {
+
         this(description, deadline, null);
     }
 

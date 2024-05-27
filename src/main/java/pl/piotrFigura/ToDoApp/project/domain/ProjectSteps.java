@@ -25,6 +25,15 @@ public class ProjectSteps {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    public ProjectSteps() {
+    }
+
+    public ProjectSteps(String description, Integer daysToDeadline, Project project) {
+        this.description = description;
+        this.daysToDeadline = daysToDeadline;
+        this.project = project;
+    }
+
     public Long getId() {
         return id;
     }
