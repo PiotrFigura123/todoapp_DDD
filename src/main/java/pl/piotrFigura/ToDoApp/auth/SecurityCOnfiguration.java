@@ -33,7 +33,7 @@ class SecurityCOnfiguration {
             .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**")
                 .permitAll()
                 .requestMatchers("/projects").hasAnyAuthority(Role.ADMIN.name())
-                .requestMatchers("/api/vi/user").hasAnyAuthority(Role.USER.name())
+                .requestMatchers("/groups").hasAnyAuthority(Role.USER.name())
                 .anyRequest().permitAll()
                 )
             .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

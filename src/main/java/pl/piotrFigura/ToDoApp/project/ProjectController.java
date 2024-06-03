@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
 import pl.piotrFigura.ToDoApp.project.domain.contract.ProjectWriteModel;
 import pl.piotrFigura.ToDoApp.project.infrastructure.ProjectService;
 
-@Controller
+@RestController
 @RequestMapping("/projects")
 class ProjectController {
     private final ProjectService service;
