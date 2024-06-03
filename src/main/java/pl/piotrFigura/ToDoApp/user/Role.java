@@ -1,6 +1,6 @@
 package pl.piotrFigura.ToDoApp.user;
 
-enum Role {
+public enum Role {
     USER,
     ADMIN
 }
