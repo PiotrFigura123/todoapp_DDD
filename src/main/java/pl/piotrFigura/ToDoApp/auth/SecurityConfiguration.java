@@ -22,7 +22,7 @@ import pl.piotrFigura.ToDoApp.user.Role;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-class SecurityCOnfiguration {
+class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
@@ -32,8 +32,8 @@ class SecurityCOnfiguration {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**")
                 .permitAll()
-                .requestMatchers("/projects").hasAnyAuthority(Role.ADMIN.name())
-                .requestMatchers("/groups").hasAnyAuthority(Role.USER.name())
+//                .requestMatchers("/projects").hasAnyAuthority(Role.ADMIN.name())
+//                .requestMatchers("/groups").hasAnyAuthority(Role.USER.name())
                 .anyRequest().permitAll()
                 )
             .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

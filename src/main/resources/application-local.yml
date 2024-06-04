@@ -36,3 +36,6 @@ keycloak:
   ssl-required: external
   resource: todo-app-client
   bearer-only: true
+jwt:
+  secret: mineageneratedabase64akeyasdasdasdasdasdasdasdasdasdasd
+  validityInDays: 4

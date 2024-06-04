@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
@@ -20,7 +21,7 @@ public class Project {
     private Long id;
     private String description;
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.EAGER)
-    private Set<ProjectSteps> steps;
+    private Set<ProjectSteps> steps = new HashSet<>();
     @OneToMany(mappedBy = "project")
     private Set<TaskGroups> groups;
 
@@ -53,14 +54,14 @@ public class Project {
         }).collect(Collectors.toUnmodifiableSet());
     }
     public void addStep(ProjectSteps step){
-        if(steps.contains(step)){
+        if( steps.contains(step)){
             return;
         }
         steps.add(step);
         step.setProject(this);
     }
     public void removeStep(ProjectSteps step){
-        if(!steps.contains(step)){
+        if( !steps.contains(step)){
             return;
         }
         steps.remove(step);

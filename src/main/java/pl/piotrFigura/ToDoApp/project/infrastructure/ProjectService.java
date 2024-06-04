@@ -33,6 +33,7 @@ public class ProjectService {
         this.taskGroupRepository = taskGroupRepository;
         this.config = config;
     }
+
     public List<Project> readAll(){
         return projectRepository.findAll();
     }

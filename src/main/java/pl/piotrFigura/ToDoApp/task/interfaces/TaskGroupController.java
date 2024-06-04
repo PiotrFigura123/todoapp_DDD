@@ -41,10 +41,10 @@ class TaskGroupController {
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showGroups(Model model){
         model.addAttribute("group", new GroupWriteModel());
-            return "groups";
+        return "groups";
     }
-    @ResponseBody
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+        @ResponseBody
+        @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<GroupReadModel> createGroup(@RequestBody @Valid GroupWriteModel toCreate) {
         GroupReadModel result = service.crateGroup(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);

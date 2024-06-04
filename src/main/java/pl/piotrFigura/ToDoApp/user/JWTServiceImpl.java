@@ -11,9 +11,16 @@ import java.util.Map;
 import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import pl.piotrFigura.ToDoApp.config.JwtConfigurationProperties;
 
 @Service
 class JWTServiceImpl implements JWTService{
+
+    private final JwtConfigurationProperties jwtConfigurationProperties;
+
+    JWTServiceImpl(JwtConfigurationProperties jwtConfigurationProperties) {
+        this.jwtConfigurationProperties = jwtConfigurationProperties;
+    }
 
     public String extractUserName(String token){
         return extractClaim(token, Claims::getSubject);
@@ -21,7 +28,7 @@ class JWTServiceImpl implements JWTService{
     public String generateToken(UserDetails userDetails){
         return Jwts.builder().setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
+            .setExpiration(new Date(System.currentTimeMillis()+jwtConfigurationProperties.getValidityInDays()*1000*60*24))
             .signWith(getSignKey(), SignatureAlgorithm.HS256)
             .compact();
     }
@@ -29,7 +36,7 @@ class JWTServiceImpl implements JWTService{
     public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails){
         return Jwts.builder().setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
+            .setExpiration(new Date(System.currentTimeMillis()+jwtConfigurationProperties.getValidityInDays()*1000*60*24))
             .signWith(getSignKey(), SignatureAlgorithm.HS256)
             .compact();
     }
@@ -46,7 +53,7 @@ class JWTServiceImpl implements JWTService{
 
     private Key getSignKey() {
 
-        byte[] key = Decoders.BASE64.decode("mineageneratedabase64akeyasdasdasdasdasdasdasdasdasdasd");
+        byte[] key = Decoders.BASE64.decode(jwtConfigurationProperties.getSecret());
         return Keys.hmacShaKeyFor(key);
     }
 
