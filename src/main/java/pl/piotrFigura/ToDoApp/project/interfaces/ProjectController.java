@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.project;
+package pl.piotrFigura.ToDoApp.project.interfaces;
 
 
 import io.micrometer.core.annotation.Timed;

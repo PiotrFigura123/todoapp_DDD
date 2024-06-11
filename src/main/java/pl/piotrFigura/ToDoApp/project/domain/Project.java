@@ -66,6 +66,5 @@ public class Project {
         }
         steps.remove(step);
         step.setProject(null);
-
     }
 }

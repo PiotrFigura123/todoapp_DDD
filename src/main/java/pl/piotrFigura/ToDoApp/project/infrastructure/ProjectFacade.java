@@ -11,6 +11,7 @@ import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
 import pl.piotrFigura.ToDoApp.project.domain.contract.ProjectWriteModel;
 import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
+import pl.piotrFigura.ToDoApp.project.query.SimpleProjectQueryDto;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupTaskWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
@@ -91,7 +92,8 @@ public class ProjectFacade {
                             return task;
                         }).toList()
                 );
-                return taskGroupFacade.crateGroup(targetGroup, project);
+                var simpleProject = new SimpleProjectQueryDto(project.getId(), project.getDescription());
+                return taskGroupFacade.crateGroup(targetGroup, simpleProject);
             }).orElseThrow(()-> new IllegalArgumentException("Project with given id not found"));
     }
 }

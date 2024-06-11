@@ -3,6 +3,7 @@ package pl.piotrFigura.ToDoApp.task.infrastructure;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
+import pl.piotrFigura.ToDoApp.project.query.SimpleProjectQueryDto;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
@@ -24,7 +25,7 @@ public class TaskGroupFacade {
        return crateGroup(source, null);
     }
 
-    public GroupReadModel crateGroup(GroupWriteModel source, Project project) {
+    public GroupReadModel crateGroup(GroupWriteModel source, SimpleProjectQueryDto project) {
        TaskGroups result = taskGroupRepository.save(source.toGroup(project));
     return new GroupReadModel(result);
     }

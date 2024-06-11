@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
+import pl.piotrFigura.ToDoApp.project.query.SimpleProjectQueryDto;
 import pl.piotrFigura.ToDoApp.util.Audit;
 import pl.piotrFigura.ToDoApp.util.Description;
 
@@ -28,7 +29,7 @@ public class TaskGroups extends Description {
     private Set<Task> tasks;
     @ManyToOne
     @JoinColumn(name = "project_id")
-    private Project project;
+    private SimpleProjectQueryDto project;
 
     public TaskGroups() {
     }
@@ -49,11 +50,11 @@ public class TaskGroups extends Description {
         this.tasks = tasks;
     }
 
-    public Project getProject() {
+    public SimpleProjectQueryDto getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(SimpleProjectQueryDto project) {
         this.project = project;
     }
 

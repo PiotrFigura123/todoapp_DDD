@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
+import pl.piotrFigura.ToDoApp.project.query.SimpleProjectQueryDto;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 
 public class GroupWriteModel {
@@ -18,7 +19,7 @@ public class GroupWriteModel {
     public GroupWriteModel() {
         tasks.add(new GroupTaskWriteModel());
     }
-    public TaskGroups toGroup(Project project){
+    public TaskGroups toGroup(SimpleProjectQueryDto project){
         var result = new TaskGroups();
         result.setDescription(description);
         result.setTasks(
