@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 
 public class GroupReadModel {
@@ -17,12 +16,13 @@ public class GroupReadModel {
             id=taskGroups.getId();
             description = taskGroups.getDescription();
             taskGroups.getTasks().stream()
-                .map(Task::getDeadline)
+                .map(task ->
+                    task.toDto().getDeadline())
                 .filter(Objects::nonNull)
                 .max(LocalDateTime::compareTo)
                 .ifPresent(date -> deadline = date);
             tasks = taskGroups.getTasks().stream()
-                .map(GroupTaskReadModel::new)
+                .map(task -> new GroupTaskReadModel(task.toDto()))
                 .collect(Collectors.toSet());
     }
 

@@ -2,10 +2,10 @@ package pl.piotrFigura.ToDoApp.reports.event;
 
 import java.time.Clock;
 import java.time.Instant;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
+import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
 
 public abstract class TaskEvent {
-    public static TaskEvent changed(Task source){
+    public static TaskEvent changed(TaskDto source){
         return source.isDone() ? new TaskDone(source) : new TaskUndone(source);
     }
     private Long taskId;

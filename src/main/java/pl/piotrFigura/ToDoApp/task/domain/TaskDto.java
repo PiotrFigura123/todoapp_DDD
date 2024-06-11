@@ -1,10 +1,9 @@
-package pl.piotrFigura.ToDoApp.task.domain.contract;
+package pl.piotrFigura.ToDoApp.task.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
 
 @JsonDeserialize(builder = TaskDto.Builder.class)
 public class TaskDto {

@@ -11,7 +11,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import pl.piotrFigura.ToDoApp.reports.event.TaskEvent;
-import pl.piotrFigura.ToDoApp.task.domain.contract.TaskDto;
 import pl.piotrFigura.ToDoApp.util.Audit;
 import pl.piotrFigura.ToDoApp.util.Description;
 
@@ -87,6 +86,6 @@ public class Task extends Description {
     }
     public TaskEvent toggle() {
         this.done = !this.done;
-        return TaskEvent.changed(this);
+        return TaskEvent.changed(this.toDto());
     }
 }

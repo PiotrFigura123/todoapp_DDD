@@ -1,13 +1,13 @@
 package pl.piotrFigura.ToDoApp.task.domain.contract;
 
-import pl.piotrFigura.ToDoApp.task.domain.Task;
+import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
 
 class GroupTaskReadModel {
 
     private String description;
     private boolean done;
 
-    public GroupTaskReadModel(Task source) {
+    public GroupTaskReadModel(TaskDto source) {
         description = source.getDescription();
         done = source.isDone();
     }

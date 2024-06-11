@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
-import pl.piotrFigura.ToDoApp.task.domain.contract.TaskDto;
+import pl.piotrFigura.ToDoApp.task.domain.TaskFactory;
+import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 @Service
 @Slf4j
@@ -14,6 +15,7 @@ import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 public class TaskFacade {
 
     private final TaskRepository taskRepository;
+    private final TaskFactory factory;
 
     public List<TaskDto> readAll(){
         return  taskRepository.findAll().stream().map(task -> task.toDto()).toList();
