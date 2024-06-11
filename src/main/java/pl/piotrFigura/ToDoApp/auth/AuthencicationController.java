@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.piotrFigura.ToDoApp.dto.JwtAuthenticationResponse;
-import pl.piotrFigura.ToDoApp.dto.RefreshTokenRequest;
-import pl.piotrFigura.ToDoApp.dto.SignUpRequest;
-import pl.piotrFigura.ToDoApp.dto.SigninRequest;
+import pl.piotrFigura.ToDoApp.auth.dto.JwtAuthenticationResponse;
+import pl.piotrFigura.ToDoApp.auth.dto.RefreshTokenRequest;
+import pl.piotrFigura.ToDoApp.auth.dto.SignUpRequest;
+import pl.piotrFigura.ToDoApp.auth.dto.SigninRequest;
 import pl.piotrFigura.ToDoApp.user.User;
 
 @RestController

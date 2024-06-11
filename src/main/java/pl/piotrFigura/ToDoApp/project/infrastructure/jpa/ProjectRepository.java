@@ -10,4 +10,6 @@ public interface ProjectRepository {
     Optional<Project> findById(Long id);
 
     Project save(Project entity);
+
+    boolean existsByDescription(String description);
 }

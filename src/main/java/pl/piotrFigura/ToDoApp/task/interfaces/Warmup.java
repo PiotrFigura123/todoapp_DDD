@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp;
+package pl.piotrFigura.ToDoApp.task.interfaces;
 
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
 
-@Component
+@Component("warmupTaskGroup")
 @Slf4j
 class Warmup implements ApplicationListener<ContextRefreshedEvent> {
 

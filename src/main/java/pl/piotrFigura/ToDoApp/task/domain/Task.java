@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import pl.piotrFigura.ToDoApp.event.TaskEvent;
+import pl.piotrFigura.ToDoApp.reports.event.TaskEvent;
 import pl.piotrFigura.ToDoApp.util.Audit;
 import pl.piotrFigura.ToDoApp.util.Description;
 
@@ -50,7 +50,7 @@ public class Task extends Description {
         return id;
     }
 
-    public void setId(Long id) {
+    void setId(Long id) {
         this.id = id;
     }
 
@@ -62,11 +62,11 @@ public class Task extends Description {
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
-    public TaskGroups getGroup() {
+    TaskGroups getGroup() {
         return group;
     }
 
-    public void setGroup(TaskGroups taskGroups) {
+    void setGroup(TaskGroups taskGroups) {
         this.group = taskGroups;
     }
 

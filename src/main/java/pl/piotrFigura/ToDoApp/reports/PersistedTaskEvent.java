@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import pl.piotrFigura.ToDoApp.event.TaskEvent;
+import pl.piotrFigura.ToDoApp.reports.event.TaskEvent;
 
 @Entity
 @Table(name = "task_events")

@@ -31,7 +31,7 @@ public class Project {
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
+    void setId(Long id) {
         this.id = id;
     }
     public String getDescription() {
@@ -43,7 +43,7 @@ public class Project {
     public Set<TaskGroups> getGroups() {
         return groups;
     }
-    public void setGroups(Set<TaskGroups> taskGroups) {
+    void setGroups(Set<TaskGroups> taskGroups) {
         this.groups = taskGroups;
     }
     public Set<ProjectSteps> getSteps() {

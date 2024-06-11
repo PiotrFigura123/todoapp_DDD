@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.config;
+package pl.piotrFigura.ToDoApp.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties("jwt")
-public class JwtConfigurationProperties {
+class JwtConfigurationProperties {
 
     private String secret;
     private long validityInDays;
@@ -15,7 +15,7 @@ public class JwtConfigurationProperties {
         return secret;
     }
 
-    public void setSecret(String secret) {
+    void setSecret(String secret) {
         this.secret = secret;
     }
 
@@ -23,7 +23,7 @@ public class JwtConfigurationProperties {
         return validityInDays;
     }
 
-    public void setValidityInDays(Long validityInDays) {
+    void setValidityInDays(Long validityInDays) {
         this.validityInDays = validityInDays;
     }
 }

@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.dto;
+package pl.piotrFigura.ToDoApp.auth.dto;
 
 import lombok.Data;
 

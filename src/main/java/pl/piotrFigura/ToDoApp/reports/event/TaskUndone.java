@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.event;
+package pl.piotrFigura.ToDoApp.reports.event;
 
 import java.time.Clock;
 import pl.piotrFigura.ToDoApp.task.domain.Task;

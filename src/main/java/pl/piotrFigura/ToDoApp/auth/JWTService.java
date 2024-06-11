@@ -1,11 +1,11 @@
-package pl.piotrFigura.ToDoApp.user;
+package pl.piotrFigura.ToDoApp.auth;
 
 import io.jsonwebtoken.Claims;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface JWTService {
+interface JWTService {
 
     String extractUserName(String token);
 

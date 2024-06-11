@@ -2,7 +2,6 @@ package pl.piotrFigura.ToDoApp.util;
 
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
-import pl.piotrFigura.ToDoApp.event.TaskEvent;
 
 @MappedSuperclass
 public abstract class Description {

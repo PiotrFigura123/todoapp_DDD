@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import pl.piotrFigura.ToDoApp.event.TaskDone;
-import pl.piotrFigura.ToDoApp.event.TaskEvent;
-import pl.piotrFigura.ToDoApp.event.TaskUndone;
+import pl.piotrFigura.ToDoApp.reports.event.TaskDone;
+import pl.piotrFigura.ToDoApp.reports.event.TaskEvent;
+import pl.piotrFigura.ToDoApp.reports.event.TaskUndone;
 
 @Service
 @Slf4j
