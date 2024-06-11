@@ -2,32 +2,26 @@ package pl.piotrFigura.ToDoApp.task.infrastructure;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
-class TaskGroupServiceTest {
+class TaskGroupFacadeTest {
 
     @Test
     @DisplayName("should throw IllegalStateException when undone tasks")
     void toggleGroup() {
     //given
-        var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( true );
-        var toTest = new TaskGroupService(null, mockTaskRepository);
+        var mockTaskFacade = mock(TaskFacade.class);
+        when(mockTaskFacade.areUndoneTasksWithGroup(anyLong())).thenReturn( true );
+        var toTest = new TaskGroupFacade(null, mockTaskFacade);
         //when
         var exception = catchThrowable(() -> toTest.toggleGroup( 1l));
         //then
@@ -40,11 +34,11 @@ class TaskGroupServiceTest {
     @DisplayName("should throw IllegalArgumentException when no group")
     void toggleGroup_wrongId_throwsIllegalArgumentException() {
         //given
-        var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( false );
+        var mockTaskFacade = mock(TaskFacade.class);
+        when(mockTaskFacade.areUndoneTasksWithGroup(anyLong())).thenReturn( false );
         var mockTaskGroupRepository = mock(TaskGroupRepository.class);
         when(mockTaskGroupRepository.findById(anyLong())).thenReturn(Optional.empty());
-        var toTest = new TaskGroupService(mockTaskGroupRepository, mockTaskRepository);
+        var toTest = new TaskGroupFacade(mockTaskGroupRepository, mockTaskFacade);
         //when
         var exception = catchThrowable(() -> toTest.toggleGroup( 1l));
         //then
@@ -57,13 +51,13 @@ class TaskGroupServiceTest {
     @DisplayName("should save group and make toggle")
     void should_toggleGroup() {
         //given
-        var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( false );
+        var mockTaskFacade = mock(TaskFacade.class);
+        when(mockTaskFacade.areUndoneTasksWithGroup(anyLong())).thenReturn( false );
         var group = new TaskGroups();
         var beforeToggle = group.isDone();
         var mockTaskGroupRepository = mock(TaskGroupRepository.class);
         when(mockTaskGroupRepository.findById(anyLong())).thenReturn(Optional.of(group));
-        var toTest = new TaskGroupService(mockTaskGroupRepository, mockTaskRepository);
+        var toTest = new TaskGroupFacade(mockTaskGroupRepository, mockTaskFacade);
         //when
         toTest.toggleGroup(0l);
         //then

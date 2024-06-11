@@ -26,18 +26,17 @@ import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
 import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
 import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
-import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupFacade;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
 
 @ExtendWith(MockitoExtension.class)
-class ProjectServiceTest {
+class ProjectFacadeTest {
 
     @Mock
     private ProjectRepository repository;
     @Mock
-    private TaskGroupService taskGroupService;
-    @Mock
-    private TaskGroupRepository taskGroupRepository;
+    private TaskGroupFacade taskGroupFacade;
+
     @Mock
     private TaskConfigurationProperties config;
 
@@ -45,9 +44,9 @@ class ProjectServiceTest {
     @DisplayName("should throw IllegalStateException when configured to allow just 1 group and the other undone group exists")
     void createGroup_noMultipleGroupsConfig_and_openGroupsExist_throwsIllegalStateException() {
         //given
-        when(taskGroupRepository.existsByDoneIsFalseAndProject_Id(anyLong())).thenReturn(true);
+        when(taskGroupFacade.areUndoneTasksWithProjectId(anyLong())).thenReturn(true);
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(false);
-        var toTest = new ProjectService(taskGroupService, repository, taskGroupRepository, config);
+        var toTest = new ProjectFacade(taskGroupFacade, repository, config);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -61,7 +60,7 @@ class ProjectServiceTest {
     void createGroup_configOk_and_noProjects_throwsIllegalArgumentException() {
         //given
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(true);
-        var toTest = new ProjectService(taskGroupService, repository, taskGroupRepository, config);
+        var toTest = new ProjectFacade(taskGroupFacade, repository, config);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -74,9 +73,9 @@ class ProjectServiceTest {
     @DisplayName("should throw IllegalArgumentException when configured to allow multiple group and no project for given id")
     void createGroup_configOk_and_openProjects_throwsIllegalStateException() {
         //given
-        when(taskGroupRepository.existsByDoneIsFalseAndProject_Id(anyLong())).thenReturn(false);
+        when(taskGroupFacade.areUndoneTasksWithProjectId(anyLong())).thenReturn(false);
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(false);
-        var toTest = new ProjectService(taskGroupService, repository, taskGroupRepository, config);
+        var toTest = new ProjectFacade(taskGroupFacade, repository, config);
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0l));
         //then
@@ -96,7 +95,7 @@ class ProjectServiceTest {
             .thenReturn(Optional.of(project));
         when(config.isAllowMultipleTaskFromTemplate()).thenReturn(true);
         InMemoryGroupRepository taskGroupRepository = inMemoryGroupRepository();
-        var toTest = new ProjectService(taskGroupService, repository, taskGroupRepository, config);
+        var toTest = new ProjectFacade(taskGroupFacade, repository, config);
         int countBeforeCall = taskGroupRepository.count();
         //when
         GroupReadModel result = toTest.createGroup(today, 0L);
@@ -167,7 +166,7 @@ class ProjectServiceTest {
             }).collect(Collectors.toSet());
         var result = new Project();
         result.setDescription(projectDescription);
-        result.setSteps(steps);
+        steps.stream().forEach(projectStep -> result.addStep(projectStep));
         return result;
     }
 

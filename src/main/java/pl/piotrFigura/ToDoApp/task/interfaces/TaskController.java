@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
-import pl.piotrFigura.ToDoApp.task.infrastructure.TaskService;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskFacade;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
 @RestController
@@ -25,10 +25,10 @@ import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 class TaskController {
 
     private final TaskRepository taskRepository;
-    private final TaskService service;
+    private final TaskFacade service;
 
     private final ApplicationEventPublisher publisher;
-    TaskController(TaskRepository taskRepository, TaskService service, ApplicationEventPublisher publisher) {
+    TaskController(TaskRepository taskRepository, TaskFacade service, ApplicationEventPublisher publisher) {
         this.taskRepository = taskRepository;
         this.service = service;
         this.publisher = publisher;

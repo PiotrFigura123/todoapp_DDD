@@ -7,18 +7,17 @@ import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
 @Service
 //@RequestScope
-public class TaskGroupService {
+public class TaskGroupFacade {
 
     private final TaskGroupRepository taskGroupRepository;
-    private final TaskRepository taskRepository;
+    private final TaskFacade taskFacade;
 
-    public TaskGroupService(TaskGroupRepository taskGroupRepository, TaskRepository taskRepository) {
+    public TaskGroupFacade(TaskGroupRepository taskGroupRepository, TaskFacade taskFacade) {
         this.taskGroupRepository = taskGroupRepository;
-        this.taskRepository = taskRepository;
+        this.taskFacade = taskFacade;
     }
 
     public GroupReadModel crateGroup(GroupWriteModel source){
@@ -37,7 +36,7 @@ public class TaskGroupService {
     }
 
     public void toggleGroup(Long groupId){
-        if(taskRepository.existsByDoneIsFalseAndGroup_Id(groupId)){
+        if(taskFacade.areUndoneTasksWithGroup(groupId)){
             throw new IllegalStateException("cant be close. All task must be done");
         }
         TaskGroups result = taskGroupRepository.findById(groupId)
@@ -45,4 +44,9 @@ public class TaskGroupService {
         result.setDone(!result.isDone());
         taskGroupRepository.save(result);
     }
+
+    public boolean areUndoneTasksWithProjectId(Long projectId) {
+        return taskGroupRepository.existsByDoneIsFalseAndProject_Id(projectId);
+    }
+
 }

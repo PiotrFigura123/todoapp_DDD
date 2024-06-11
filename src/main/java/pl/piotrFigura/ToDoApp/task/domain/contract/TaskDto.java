@@ -1,29 +1,38 @@
 package pl.piotrFigura.ToDoApp.task.domain.contract;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 
+@JsonDeserialize(builder = TaskDto.Builder.class)
 public class TaskDto {
-    private Long id;
+    public static Builder builder(){
+        return new Builder();
+    }
+    private final Long id;
     @NotBlank
-    private String description;
-    private LocalDateTime deadline;
-    private boolean done;
+    private final String description;
+    private final LocalDateTime deadline;
+    private final boolean done;
 
-    public TaskDto(Task save) {
-        id = save.getId();
-        description = save.getDescription();
-        deadline = save.getDeadline();
-        done = save.isDone();
+    private TaskDto(final Builder builder) {
+        id = builder.id;
+        description = builder.description;
+        deadline = builder.deadline;
+        done = builder.done;
+    }
+    public Builder toBuilder(){
+        return builder()
+                .withId(id)
+                .withDescription(description)
+                .withDone(done)
+                .withDeadline(deadline);
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 
@@ -31,23 +40,46 @@ public class TaskDto {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public LocalDateTime getDeadline() {
         return deadline;
-    }
-
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
     }
 
     public boolean isDone() {
         return done;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    @JsonPOJOBuilder
+    public static class Builder{
+        private Long id;
+        @NotBlank
+        private String description;
+        private LocalDateTime deadline;
+        private boolean done;
+        public TaskDto build(){
+            return new TaskDto(this);
+        }
+        private Builder(){
+
+        }
+
+        public Builder withId(final Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withDescription(final String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder withDeadline(final LocalDateTime deadline) {
+            this.deadline = deadline;
+            return this;
+        }
+
+        public Builder withDone(final boolean done) {
+            this.done = done;
+            return this;
+        }
     }
 }

@@ -21,7 +21,7 @@ class LogicAspect {
     LogicAspect(final MeterRegistry registry) {
         projectCreateGroupTimer = registry.timer("logic.product.create.group");
     }
-    @Pointcut("execution(* pl.piotrFigura.ToDoApp.project.infrastructure.ProjectService.createGroup(..))")
+    @Pointcut("execution(* pl.piotrFigura.ToDoApp.project.infrastructure.ProjectFacade.createGroup(..))")
     static void projectServiceCreateGroup(){
 
     }

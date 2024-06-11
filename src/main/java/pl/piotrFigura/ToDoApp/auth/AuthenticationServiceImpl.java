@@ -12,13 +12,12 @@ import pl.piotrFigura.ToDoApp.auth.dto.SignUpRequest;
 import pl.piotrFigura.ToDoApp.auth.dto.SigninRequest;
 import pl.piotrFigura.ToDoApp.user.Role;
 import pl.piotrFigura.ToDoApp.user.User;
-import pl.piotrFigura.ToDoApp.user.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 class AuthenticationServiceImpl implements AuthenticationService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
@@ -30,14 +29,15 @@ class AuthenticationServiceImpl implements AuthenticationService {
     user.setSecondName(signUpRequest.getLastName());
     user.setRole(Role.USER);
     user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-    return  userRepository.save(user);
+    return  userService.saveUser(user);
+
 
     }
 
     public JwtAuthenticationResponse signin(SigninRequest signinRequest){
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(signinRequest.getEmail(), signinRequest.getPassword()));
-        var user = userRepository.findByEmail(signinRequest.getEmail())
+        var user = userService.findByEmail(signinRequest.getEmail())
             .orElseThrow(()-> new IllegalArgumentException("Invalid email or password"));
         var jwt = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
@@ -50,7 +50,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
 
     public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
         String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
-        User user = userRepository.findByEmail(userEmail).orElseThrow();
+        User user = userService.findByEmail(userEmail).orElseThrow();
         if(jwtService.isTokenValid(refreshTokenRequest.getToken(), user)){
             var jwt = jwtService.generateToken(user);
             var jwtAuthenticationResponse = new JwtAuthenticationResponse();

@@ -1,8 +1,6 @@
 package pl.piotrFigura.ToDoApp.task.interfaces;
 
 import jakarta.validation.Valid;
-import java.net.URI;
-import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,21 +19,25 @@ import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupTaskWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
-import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
+import pl.piotrFigura.ToDoApp.task.domain.contract.TaskDto;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskFacade;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupFacade;
 import pl.piotrFigura.ToDoApp.util.GlobalControllerAdviceProcessing;
+
+import java.net.URI;
+import java.util.List;
 
 @GlobalControllerAdviceProcessing
 @Controller
 @RequestMapping("/groups")
 class TaskGroupController {
 
-    private final TaskGroupService service;
-    private final TaskRepository taskRepository;
+    private final TaskGroupFacade service;
+    private final TaskFacade taskFacade;
 
-    TaskGroupController(TaskGroupService service, TaskRepository taskRepository) {
+    TaskGroupController(TaskGroupFacade service, final TaskFacade taskFacade) {
         this.service = service;
-        this.taskRepository = taskRepository;
+        this.taskFacade = taskFacade;
     }
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
@@ -57,13 +59,13 @@ class TaskGroupController {
     }
     @ResponseBody
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Task>> readAllTasksFromGroup(@PathVariable Long id){
-        return ResponseEntity.ok(taskRepository.findAllByGroup_Id(id));
+    ResponseEntity<List<TaskDto>> readAllTasksFromGroup(@PathVariable Long id){
+        return ResponseEntity.ok(taskFacade.findAllTasksWithGroupId(id));
     }
     @ResponseBody
     @Transactional //na poczatku BEGIN a na koniec COMMIT na bazie
     @PatchMapping("/{id}")
-    public ResponseEntity<Task> toggleGroup(@PathVariable Long id) {
+    public ResponseEntity<TaskDto> toggleGroup(@PathVariable Long id) {
         service.toggleGroup(id);
         return ResponseEntity.noContent().build();
     }

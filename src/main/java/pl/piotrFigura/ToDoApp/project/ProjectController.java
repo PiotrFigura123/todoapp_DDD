@@ -18,20 +18,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
 import pl.piotrFigura.ToDoApp.project.domain.contract.ProjectWriteModel;
-import pl.piotrFigura.ToDoApp.project.infrastructure.ProjectService;
-import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
-import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
+import pl.piotrFigura.ToDoApp.project.infrastructure.ProjectFacade;
 
 @Controller
 @RequestMapping("/projects")
 class ProjectController {
-    private final ProjectService service;
+    private final ProjectFacade service;
 
-    ProjectController(ProjectService service) {
+    ProjectController(ProjectFacade service) {
         this.service = service;
     }
 

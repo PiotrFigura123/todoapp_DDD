@@ -6,27 +6,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
+import pl.piotrFigura.ToDoApp.task.domain.contract.TaskDto;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskFacade;
 
 @RestController
 @RequestMapping("/reports")
 class ReportController {
 
-    private final TaskRepository taskRepository;
+    private final TaskFacade taskFacade;
     private final PersistedTaskEventRepository eventRepository;
 
-    ReportController(TaskRepository taskRepository, PersistedTaskEventRepository eventRepository) {
-        this.taskRepository = taskRepository;
+    ReportController( final TaskFacade taskFacade, PersistedTaskEventRepository eventRepository) {
+        this.taskFacade = taskFacade;
         this.eventRepository = eventRepository;
     }
 
     @GetMapping("/count/{id}")
     ResponseEntity<TaskWithChangesCount> readTaskWithCount(@PathVariable long id){
-        return taskRepository.findById(id)
-            .map(task -> new TaskWithChangesCount(task, eventRepository.findByTaskId(id)))
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+        return taskFacade.readTaskWithCount(id).map(task -> new TaskWithChangesCount(task, eventRepository.findByTaskId(id)))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
     }
 
     private static class TaskWithChangesCount {
@@ -34,7 +34,7 @@ class ReportController {
         public String description;
         public boolean done;
         public int changesCount;
-        TaskWithChangesCount(Task task, List<PersistedTaskEvent> events) {
+        TaskWithChangesCount(TaskDto task, List<PersistedTaskEvent> events) {
         description = task.getDescription();
         done = task.isDone();
         changesCount = events.size();

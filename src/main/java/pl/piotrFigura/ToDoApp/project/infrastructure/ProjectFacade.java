@@ -1,6 +1,5 @@
 package pl.piotrFigura.ToDoApp.project.infrastructure;
 
-import ch.qos.logback.core.BasicStatusManager;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -15,22 +14,19 @@ import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupTaskWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
-import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupService;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
+import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupFacade;
 
 @Service
-public class ProjectService {
+public class ProjectFacade {
 
-    private TaskGroupService taskGroupService;
+    private TaskGroupFacade taskGroupFacade;
     private ProjectRepository projectRepository;
-    private TaskGroupRepository taskGroupRepository;
     private TaskConfigurationProperties config;
 
-    public ProjectService(TaskGroupService taskGroupService, ProjectRepository projectRepository,
-        TaskGroupRepository taskGroupRepository, TaskConfigurationProperties config) {
-        this.taskGroupService = taskGroupService;
+    public ProjectFacade(TaskGroupFacade taskGroupFacade, ProjectRepository projectRepository,
+                         TaskConfigurationProperties config) {
+        this.taskGroupFacade = taskGroupFacade;
         this.projectRepository = projectRepository;
-        this.taskGroupRepository = taskGroupRepository;
         this.config = config;
     }
 
@@ -79,7 +75,7 @@ public class ProjectService {
     }
 
     public GroupReadModel createGroup(LocalDateTime deadline, Long projectId){
-        if(!config.isAllowMultipleTaskFromTemplate() && taskGroupRepository.existsByDoneIsFalseAndProject_Id(projectId)){
+        if(!config.isAllowMultipleTaskFromTemplate() && taskGroupFacade.areUndoneTasksWithProjectId(projectId)){
             throw new IllegalStateException("Only one undone group from project is allowed");
         }
         return projectRepository.findById(projectId)
@@ -95,7 +91,7 @@ public class ProjectService {
                             return task;
                         }).toList()
                 );
-                return taskGroupService.crateGroup(targetGroup, project);
+                return taskGroupFacade.crateGroup(targetGroup, project);
             }).orElseThrow(()-> new IllegalArgumentException("Project with given id not found"));
     }
 }
