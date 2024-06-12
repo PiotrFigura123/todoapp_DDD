@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskFactory;
 import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
+import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskQueryRepository;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 @Service
 @Slf4j
@@ -15,10 +18,12 @@ import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 public class TaskFacade {
 
     private final TaskRepository taskRepository;
+    private final TaskQueryRepository taskQueryRepository;
     private final TaskFactory factory;
+    private final ApplicationEventPublisher publisher;
 
     public List<TaskDto> readAll(){
-        return  taskRepository.findAll().stream().map(task -> task.toDto()).toList();
+        return  taskQueryRepository.findAll().stream().map(task -> task.toDto()).toList();
     }
     public TaskDto get(Long id){
         Task task = taskRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("don't exist"));
@@ -27,16 +32,13 @@ public class TaskFacade {
                 .withDescription(task.getDescription())
                 .withDone(task.isDone())
                 .build();
-
-
     }
     public void delete(Long id){
         taskRepository.deleteById(id);
     }
 
     public TaskDto save(TaskDto toSave){
-        return taskRepository.save(
-                taskRepository.findById(toSave.getId())
+           Task task = taskRepository.findById(toSave.getId())
                     .map(existingTask -> {
                         if ( existingTask.isDone() != toSave.isDone()){
                             existingTask.setDone(toSave.isDone());
@@ -47,8 +49,8 @@ public class TaskFacade {
                     }).orElseGet(()-> {
                         var result = new Task(toSave.getDescription(), toSave.getDeadline(), null);
                         return result;
-                    })
-            ).toDto();
+                    });
+        return taskRepository.save(task).toDto();
     }
 
     public Optional<TaskDto> readTaskWithCount(long id) {
@@ -63,14 +65,48 @@ public class TaskFacade {
     }
 
     public boolean areUndoneTasksWithGroup(Long groupId) {
-        return taskRepository.existsByDoneIsFalseAndGroup_Id( groupId);
+        return taskQueryRepository.existsByDoneIsFalseAndGroup_Id( groupId);
     }
 
     public List<TaskDto> findAllTasksWithGroupId(Long id) {
-        return taskRepository.findAllByGroup_Id(id)
+        return taskQueryRepository.findAllByGroup_Id(id)
                 .stream()
                 .map(task ->
                         task.toDto())
                 .toList();
+    }
+
+    public List<TaskDto> findAll() {
+    return taskQueryRepository.findAll().stream().map(Task::toDto).toList();
+    }
+
+    public TaskDto findTask( Long id) {
+        return taskRepository.findById(id).map(Task::toDto).orElseThrow(()-> new IllegalArgumentException("doesn't exist"));
+    }
+
+    public List<TaskDto> searchByDone(Boolean state) {
+        return taskQueryRepository.findByDone(state).stream().map(Task::toDto).toList();
+    }
+
+    public TaskDto createTask(Task toCreate) {
+        return taskRepository.save(toCreate).toDto();
+    }
+
+    public void updateTask(Long id, Task toUpdate) {
+        taskRepository.findById(id)
+                .ifPresent(task -> {
+                    task.updateFrom(toUpdate);
+                    taskRepository.save(task);
+                });
+    }
+
+    public boolean existById(Long id) {
+        return taskQueryRepository.existsById(id);
+    }
+
+    public void toggleTask(final Long id) {
+        taskRepository.findById(id)
+                .map(Task::toggle)
+                .ifPresent(publisher::publishEvent);
     }
 }

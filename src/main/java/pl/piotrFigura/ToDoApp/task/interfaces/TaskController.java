@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
+import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskFacade;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 
@@ -24,62 +25,51 @@ import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
 @RequestMapping("/tasks")
 class TaskController {
 
-    private final TaskRepository taskRepository;
     private final TaskFacade service;
 
-    private final ApplicationEventPublisher publisher;
-    TaskController(TaskRepository taskRepository, TaskFacade service, ApplicationEventPublisher publisher) {
-        this.taskRepository = taskRepository;
+
+    TaskController(TaskFacade service) {
         this.service = service;
-        this.publisher = publisher;
     }
 
     @GetMapping()
-    ResponseEntity<List<Task>> readAllTasks() {
-        return ResponseEntity.ok().body(taskRepository.findAll());
+    ResponseEntity<List<TaskDto>> readAllTasks() {
+        return ResponseEntity.ok().body(service.findAll());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Task> readTask(@PathVariable Long id) {
-        return taskRepository.findById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    ResponseEntity<TaskDto> readTask(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.findTask(id));
     }
     @GetMapping(value = "/search/done", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Task>> searchByDone(@RequestParam(defaultValue = "true") Boolean state){
+    ResponseEntity<List<TaskDto>> searchByDone(@RequestParam(defaultValue = "true") Boolean state){
         return ResponseEntity.ok()
-            .body(taskRepository.findByDone(state));
+            .body(service.searchByDone(state));
     }
 
     @PostMapping()
-    ResponseEntity<Task> createTask(@Valid @RequestBody Task toCreate) {
-        Task result = taskRepository.save(toCreate);
+    ResponseEntity<TaskDto> createTask(@Valid @RequestBody Task toCreate) {
+        TaskDto result = service.createTask(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @Transactional
     @PutMapping("/{id}")
     ResponseEntity<Task> updateTask(@PathVariable Long id, @Valid @RequestBody Task toUpdate) {
-        if (!taskRepository.existsById(id)) {
+        if (!service.existById(id)) {
             return ResponseEntity.notFound().build();
         }
-            taskRepository.findById(id)
-                .ifPresent(task -> {
-                    task.updateFrom(toUpdate);
-                    taskRepository.save(task);
-                    });
+        service.updateTask(id, toUpdate);
         return ResponseEntity.noContent().build();
     }
 
     @Transactional //na poczatku BEGIN a na koniec COMMIT na bazie
     @PatchMapping("/{id}")
     ResponseEntity<Task> toggleTask(@PathVariable Long id) {
-        if (!taskRepository.existsById(id)) {
+        if (!service.existById(id)) {
             return ResponseEntity.notFound().build();
         }
-        taskRepository.findById(id)
-            .map(Task::toggle)
-                .ifPresent(publisher::publishEvent);
+        service.toggleTask(id);
         return ResponseEntity.noContent().build();
     }
 }

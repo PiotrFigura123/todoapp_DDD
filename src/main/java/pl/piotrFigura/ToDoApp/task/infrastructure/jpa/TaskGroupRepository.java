@@ -6,13 +6,8 @@ import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 
 public interface TaskGroupRepository {
 
-    List<TaskGroups> findAll();
-
     Optional<TaskGroups> findById(Long id);
 
     TaskGroups save(TaskGroups entity);
 
-    boolean existsByDoneIsFalseAndProject_Id(Long id);
-
-    boolean existsByDescription(String description);
 }

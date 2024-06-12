@@ -8,11 +8,4 @@ import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
 
 @Repository
 interface TaskGroupRepositoryImpl extends TaskGroupRepository, JpaRepository<TaskGroups, Long> {
-
-    @Override
-    @Query("select distinct g from TaskGroups g join fetch g.tasks")
-    List<TaskGroups> findAll();
-
-    @Override
-    boolean existsByDoneIsFalseAndProject_Id(Long id);
 }

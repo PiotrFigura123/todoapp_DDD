@@ -9,14 +9,4 @@ import pl.piotrFigura.ToDoApp.task.domain.Task;
 
 @Repository
 interface TaskRepositoryImpl extends TaskRepository, JpaRepository<Task, Long> {
-
-    @Override
-    @Query(nativeQuery = true, value = "select count(*) > 0 from tasks where id=:id")
-    boolean existsById(@Param("id") Long id);
-
-    @Override
-    boolean existsByDoneIsFalseAndGroup_Id(Long groupId);
-
-    @Override
-    List<Task> findAllByGroup_Id(Long groupId);
 }
