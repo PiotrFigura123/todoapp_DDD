@@ -16,6 +16,7 @@ import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupTaskWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupFacade;
+import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskQueryGroupRepository;
 
 @Service
 public class ProjectFacade {
@@ -23,17 +24,16 @@ public class ProjectFacade {
     private TaskGroupFacade taskGroupFacade;
     private ProjectRepository projectRepository;
     private TaskConfigurationProperties config;
+    private final TaskQueryGroupRepository taskQueryGroupRepository;
 
-    public ProjectFacade(TaskGroupFacade taskGroupFacade, ProjectRepository projectRepository,
-                         TaskConfigurationProperties config) {
+    public ProjectFacade(final TaskGroupFacade taskGroupFacade, final ProjectRepository projectRepository,
+                         final TaskConfigurationProperties config, final TaskQueryGroupRepository taskQueryGroupRepository) {
         this.taskGroupFacade = taskGroupFacade;
         this.projectRepository = projectRepository;
         this.config = config;
+        this.taskQueryGroupRepository = taskQueryGroupRepository;
     }
 
-    public List<Project> readAll(){
-        return projectRepository.findAll();
-    }
 
     public Project save(final ProjectWriteModel project){
         return projectRepository.save(project.toProject());
@@ -76,7 +76,7 @@ public class ProjectFacade {
     }
 
     public GroupReadModel createGroup(LocalDateTime deadline, Long projectId){
-        if(!config.isAllowMultipleTaskFromTemplate() && taskGroupFacade.areUndoneTasksWithProjectId(projectId)){
+        if(!config.isAllowMultipleTaskFromTemplate() && taskQueryGroupRepository.existsByDoneIsFalseAndProject_Id(projectId)){
             throw new IllegalStateException("Only one undone group from project is allowed");
         }
         return projectRepository.findById(projectId)

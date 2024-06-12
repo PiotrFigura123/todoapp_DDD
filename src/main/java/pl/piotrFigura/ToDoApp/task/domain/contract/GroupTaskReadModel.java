@@ -2,7 +2,7 @@ package pl.piotrFigura.ToDoApp.task.domain.contract;
 
 import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
 
-class GroupTaskReadModel {
+public class GroupTaskReadModel {
 
     private String description;
     private boolean done;

@@ -8,6 +8,7 @@ import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
 import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskQueryGroupRepository;
+import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskQueryRepository;
 
 @Service
 //@RequestScope
@@ -16,11 +17,16 @@ public class TaskGroupFacade {
     private final TaskGroupRepository taskGroupRepository;
     private final TaskQueryGroupRepository taskQueryGroupRepository;
     private final TaskFacade taskFacade;
+    private final TaskQueryRepository taskQueryRepository;
 
-    public TaskGroupFacade(TaskGroupRepository taskGroupRepository, TaskQueryGroupRepository taskQueryGroupRepository, TaskFacade taskFacade) {
+    public TaskGroupFacade(final TaskGroupRepository taskGroupRepository,
+                           final TaskQueryGroupRepository taskQueryGroupRepository,
+                           final TaskFacade taskFacade,
+                           final TaskQueryRepository taskQueryRepository) {
         this.taskGroupRepository = taskGroupRepository;
         this.taskQueryGroupRepository = taskQueryGroupRepository;
         this.taskFacade = taskFacade;
+        this.taskQueryRepository = taskQueryRepository;
     }
 
     public GroupReadModel crateGroup(GroupWriteModel source){
@@ -39,7 +45,7 @@ public class TaskGroupFacade {
     }
 
     public void toggleGroup(Long groupId){
-        if(taskFacade.areUndoneTasksWithGroup(groupId)){
+        if(taskQueryRepository.existsByDoneIsFalseAndGroup_Id( groupId)){
             throw new IllegalStateException("cant be close. All task must be done");
         }
         TaskGroups result = taskGroupRepository.findById(groupId)
@@ -47,9 +53,4 @@ public class TaskGroupFacade {
         result.setDone(!result.isDone());
         taskGroupRepository.save(result);
     }
-
-    public boolean areUndoneTasksWithProjectId(Long projectId) {
-        return taskQueryGroupRepository.existsByDoneIsFalseAndProject_Id(projectId);
-    }
-
 }

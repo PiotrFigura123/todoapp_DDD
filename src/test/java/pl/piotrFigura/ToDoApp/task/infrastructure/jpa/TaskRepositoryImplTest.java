@@ -1,48 +1,28 @@
 package pl.piotrFigura.ToDoApp.task.infrastructure.jpa;
 
-import java.util.ArrayList;
+import pl.piotrFigura.ToDoApp.task.domain.Task;
+import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
 
 public class TaskRepositoryImplTest implements TaskRepository{
 
-    private Map<Long, Task> tasks = new HashMap<>();
+    private Map<Long, TaskDto> tasks = new HashMap<>();
     @Override
-    public Optional<Task> findById(Long id) {
+    public Optional<TaskDto> findDtoById(Long id) {
         return Optional.ofNullable(tasks.get(id));
     }
 
     @Override
-    public Task save(Task source) {
+    public TaskDto save(TaskDto source) {
         return tasks.put(tasks.size() + 1l, source);
     }
 
     @Override
-    public List<Task> findAll() {
-        return new ArrayList<>(tasks.values());
-    }
+    public void deleteById(final Long id) {
 
-    @Override
-    public boolean existsById(Long id) {
-        return tasks.containsKey(id);
-    }
-
-    @Override
-    public List<Task> findByDone(boolean done) {
-        return null;
-    }
-
-    @Override
-    public List<Task> findAllByGroup_Id(Long groupId) {
-        return List.of();
-    }
-
-    @Override
-    public boolean existsByDoneIsFalseAndGroup_Id(Long groupId) {
-        return false;
     }
 
 

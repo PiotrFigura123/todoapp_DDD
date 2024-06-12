@@ -84,8 +84,5 @@ public class Task extends Description {
         description = source.description;
         group = source.group;
     }
-    public TaskEvent toggle() {
-        this.done = !this.done;
-        return TaskEvent.changed(this.toDto());
-    }
+
 }

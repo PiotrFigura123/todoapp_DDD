@@ -21,7 +21,7 @@ class TaskGroupFacadeTest {
     //given
         var mockTaskFacade = mock(TaskFacade.class);
         when(mockTaskFacade.areUndoneTasksWithGroup(anyLong())).thenReturn( true );
-        var toTest = new TaskGroupFacade(null, mockTaskFacade);
+        var toTest = new TaskGroupFacade(null, null, mockTaskFacade, taskQueryRepository);
         //when
         var exception = catchThrowable(() -> toTest.toggleGroup( 1l));
         //then
@@ -38,7 +38,7 @@ class TaskGroupFacadeTest {
         when(mockTaskFacade.areUndoneTasksWithGroup(anyLong())).thenReturn( false );
         var mockTaskGroupRepository = mock(TaskGroupRepository.class);
         when(mockTaskGroupRepository.findById(anyLong())).thenReturn(Optional.empty());
-        var toTest = new TaskGroupFacade(mockTaskGroupRepository, mockTaskFacade);
+        var toTest = new TaskGroupFacade(mockTaskGroupRepository, null, mockTaskFacade, taskQueryRepository);
         //when
         var exception = catchThrowable(() -> toTest.toggleGroup( 1l));
         //then
@@ -57,7 +57,7 @@ class TaskGroupFacadeTest {
         var beforeToggle = group.isDone();
         var mockTaskGroupRepository = mock(TaskGroupRepository.class);
         when(mockTaskGroupRepository.findById(anyLong())).thenReturn(Optional.of(group));
-        var toTest = new TaskGroupFacade(mockTaskGroupRepository, mockTaskFacade);
+        var toTest = new TaskGroupFacade(mockTaskGroupRepository, null, mockTaskFacade, taskQueryRepository);
         //when
         toTest.toggleGroup(0l);
         //then

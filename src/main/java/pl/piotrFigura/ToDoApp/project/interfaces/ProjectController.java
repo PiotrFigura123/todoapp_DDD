@@ -22,14 +22,17 @@ import pl.piotrFigura.ToDoApp.project.domain.Project;
 import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
 import pl.piotrFigura.ToDoApp.project.domain.contract.ProjectWriteModel;
 import pl.piotrFigura.ToDoApp.project.infrastructure.ProjectFacade;
+import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectQueryRepository;
 
 @Controller
 @RequestMapping("/projects")
 class ProjectController {
     private final ProjectFacade service;
+    private final ProjectQueryRepository projectQueryRepository;
 
-    ProjectController(ProjectFacade service) {
+    ProjectController(final ProjectFacade service, final ProjectQueryRepository projectQueryRepository) {
         this.service = service;
+        this.projectQueryRepository = projectQueryRepository;
     }
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
@@ -41,7 +44,7 @@ class ProjectController {
     @ResponseBody
     @GetMapping( produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<Project>> readAllGroups() {
-        return ResponseEntity.ok(service.readAll());
+        return ResponseEntity.ok(projectQueryRepository.findAll());
     }
         @PostMapping
         String addProject(
@@ -87,6 +90,6 @@ class ProjectController {
         }
         @ModelAttribute("projects")
         List<Project> getProjects(){
-            return service.readAll();
+            return projectQueryRepository.findAll();
         }
     }

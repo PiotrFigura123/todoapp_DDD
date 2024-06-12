@@ -1,11 +1,10 @@
 package pl.piotrFigura.ToDoApp.task.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import jakarta.validation.constraints.NotBlank;
+import pl.piotrFigura.ToDoApp.reports.event.TaskEvent;
+
 import java.time.LocalDateTime;
 
-@JsonDeserialize(builder = TaskDto.Builder.class)
 public class TaskDto {
     public static Builder builder(){
         return new Builder();
@@ -14,22 +13,27 @@ public class TaskDto {
     @NotBlank
     private final String description;
     private final LocalDateTime deadline;
-    private final boolean done;
+    private boolean done;
 
-    private TaskDto(final Builder builder) {
-        id = builder.id;
-        description = builder.description;
-        deadline = builder.deadline;
-        done = builder.done;
+    public TaskDto(final Long id, final String description, final LocalDateTime deadline, final boolean done) {
+        this.id = id;
+        this.description = description;
+        this.deadline = deadline;
+        this.done = done;
     }
+
     public Builder toBuilder(){
-        return builder()
+        return new Builder()
                 .withId(id)
                 .withDescription(description)
                 .withDone(done)
                 .withDeadline(deadline);
     }
 
+    public TaskEvent toggle() {
+        this.done = !this.done;
+        return TaskEvent.changed(this);
+    }
     public Long getId() {
         return id;
     }
@@ -47,7 +51,6 @@ public class TaskDto {
         return done;
     }
 
-    @JsonPOJOBuilder
     public static class Builder{
         private Long id;
         @NotBlank
@@ -55,10 +58,9 @@ public class TaskDto {
         private LocalDateTime deadline;
         private boolean done;
         public TaskDto build(){
-            return new TaskDto(this);
+            return new TaskDto(id, description, deadline, done);
         }
         private Builder(){
-
         }
 
         public Builder withId(final Long id) {

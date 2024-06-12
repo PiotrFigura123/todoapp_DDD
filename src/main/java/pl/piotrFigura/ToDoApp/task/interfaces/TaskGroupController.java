@@ -21,6 +21,7 @@ import pl.piotrFigura.ToDoApp.task.domain.contract.GroupWriteModel;
 import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskFacade;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupFacade;
+import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskQueryRepository;
 import pl.piotrFigura.ToDoApp.util.GlobalControllerAdviceProcessing;
 
 import java.net.URI;
@@ -33,10 +34,12 @@ class TaskGroupController {
 
     private final TaskGroupFacade service;
     private final TaskFacade taskFacade;
+    private final TaskQueryRepository taskQueryRepository;
 
-    TaskGroupController(TaskGroupFacade service, final TaskFacade taskFacade) {
+    TaskGroupController(final TaskGroupFacade service, final TaskFacade taskFacade, final TaskQueryRepository taskQueryRepository) {
         this.service = service;
         this.taskFacade = taskFacade;
+        this.taskQueryRepository = taskQueryRepository;
     }
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
@@ -59,7 +62,7 @@ class TaskGroupController {
     @ResponseBody
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<TaskDto>> readAllTasksFromGroup(@PathVariable Long id){
-        return ResponseEntity.ok(taskFacade.findAllTasksWithGroupId(id));
+        return ResponseEntity.ok(taskQueryRepository.findDtoByGroup_Id(id));
     }
     @ResponseBody
     @Transactional //na poczatku BEGIN a na koniec COMMIT na bazie

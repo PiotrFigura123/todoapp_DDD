@@ -3,7 +3,7 @@ package pl.piotrFigura.ToDoApp.task.interfaces;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import org.springframework.context.ApplicationEventPublisher;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,22 +19,24 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.piotrFigura.ToDoApp.task.domain.Task;
 import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
 import pl.piotrFigura.ToDoApp.task.infrastructure.TaskFacade;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskRepository;
+import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskQueryRepository;
 
 @RestController
 @RequestMapping("/tasks")
 class TaskController {
 
     private final TaskFacade service;
+    private final TaskQueryRepository taskQueryRepository;
 
 
-    TaskController(TaskFacade service) {
+    TaskController(final TaskFacade service, final TaskQueryRepository taskQueryRepository) {
         this.service = service;
+        this.taskQueryRepository = taskQueryRepository;
     }
 
     @GetMapping()
     ResponseEntity<List<TaskDto>> readAllTasks() {
-        return ResponseEntity.ok().body(service.findAll());
+        return ResponseEntity.ok().body(taskQueryRepository.findAllBy());
     }
 
     @GetMapping("/{id}")
@@ -44,19 +46,19 @@ class TaskController {
     @GetMapping(value = "/search/done", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<TaskDto>> searchByDone(@RequestParam(defaultValue = "true") Boolean state){
         return ResponseEntity.ok()
-            .body(service.searchByDone(state));
+            .body(taskQueryRepository.findDtoByDone(state));
     }
 
     @PostMapping()
-    ResponseEntity<TaskDto> createTask(@Valid @RequestBody Task toCreate) {
+    ResponseEntity<TaskDto> createTask(@Valid @RequestBody TaskDto toCreate) {
         TaskDto result = service.createTask(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @Transactional
     @PutMapping("/{id}")
-    ResponseEntity<Task> updateTask(@PathVariable Long id, @Valid @RequestBody Task toUpdate) {
-        if (!service.existById(id)) {
+    ResponseEntity<TaskDto> updateTask(@PathVariable Long id, @Valid @RequestBody TaskDto toUpdate) {
+        if (!taskQueryRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         service.updateTask(id, toUpdate);
@@ -66,7 +68,7 @@ class TaskController {
     @Transactional //na poczatku BEGIN a na koniec COMMIT na bazie
     @PatchMapping("/{id}")
     ResponseEntity<Task> toggleTask(@PathVariable Long id) {
-        if (!service.existById(id)) {
+        if (!taskQueryRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         service.toggleTask(id);
