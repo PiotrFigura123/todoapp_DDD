@@ -11,8 +11,8 @@
     <groupId>pl.piotrFigura</groupId>
     <artifactId>ToDoApp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ToDoApp</name>
-    <description>ToDoApp</description>
+    <name>monolith</name>
+    <description>monolith for ToDoApp</description>
     <properties>
         <java.version>17</java.version>
         <testcontainers.version>1.17.3</testcontainers.version>
