@@ -10,9 +10,11 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskQueryRepository;
+import pl.piotrFigura.ToDoApp.task.TaskFacade;
+import pl.piotrFigura.ToDoApp.task.TaskGroupFacade;
+import pl.piotrFigura.ToDoApp.task.TaskGroups;
+import pl.piotrFigura.ToDoApp.task.TaskGroupRepository;
+import pl.piotrFigura.ToDoApp.task.TaskQueryRepository;
 
 class TaskGroupFacadeTest {
 

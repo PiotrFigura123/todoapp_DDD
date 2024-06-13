@@ -7,8 +7,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.piotrFigura.ToDoApp.task.domain.Task;
-import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
+import pl.piotrFigura.ToDoApp.task.Task;
+import pl.piotrFigura.ToDoApp.task.TaskGroups;
+import pl.piotrFigura.ToDoApp.task.dto.GroupReadModel;
 
 class GroupReadModelTest {
     @Test

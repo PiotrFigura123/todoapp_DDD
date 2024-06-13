@@ -1,13 +1,14 @@
 package pl.piotrFigura.ToDoApp.task.infrastructure.jpa;
 
-import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
+import pl.piotrFigura.ToDoApp.task.TaskQueryRepository;
+import pl.piotrFigura.ToDoApp.task.dto.TaskDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TaskQueryRepositoryTest implements TaskQueryRepository{
+public class TaskQueryRepositoryTest implements TaskQueryRepository {
         private Map<Long, TaskDto> tasks = new HashMap<>();
         @Override
         public List<TaskDto> findAllBy() {

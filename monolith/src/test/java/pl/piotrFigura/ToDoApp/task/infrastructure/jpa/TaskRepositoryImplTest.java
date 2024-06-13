@@ -1,12 +1,13 @@
 package pl.piotrFigura.ToDoApp.task.infrastructure.jpa;
 
-import pl.piotrFigura.ToDoApp.task.domain.TaskDto;
+import pl.piotrFigura.ToDoApp.task.TaskRepository;
+import pl.piotrFigura.ToDoApp.task.dto.TaskDto;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class TaskRepositoryImplTest implements TaskRepository{
+public class TaskRepositoryImplTest implements TaskRepository {
 
     private Map<Long, TaskDto> tasks = new HashMap<>();
     @Override

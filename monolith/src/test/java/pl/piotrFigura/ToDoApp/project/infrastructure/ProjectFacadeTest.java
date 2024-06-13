@@ -20,15 +20,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.piotrFigura.ToDoApp.config.TaskConfigurationProperties;
-import pl.piotrFigura.ToDoApp.project.domain.Project;
-import pl.piotrFigura.ToDoApp.project.domain.ProjectSteps;
-import pl.piotrFigura.ToDoApp.project.infrastructure.jpa.ProjectRepository;
-import pl.piotrFigura.ToDoApp.task.domain.TaskGroups;
-import pl.piotrFigura.ToDoApp.task.domain.contract.GroupReadModel;
-import pl.piotrFigura.ToDoApp.task.infrastructure.TaskGroupFacade;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskGroupRepository;
-import pl.piotrFigura.ToDoApp.task.infrastructure.jpa.TaskQueryGroupRepository;
+import pl.piotrFigura.ToDoApp.task.TaskConfigurationProperties;
+import pl.piotrFigura.ToDoApp.project.ProjectFacade;
+import pl.piotrFigura.ToDoApp.project.Project;
+import pl.piotrFigura.ToDoApp.project.ProjectSteps;
+import pl.piotrFigura.ToDoApp.project.ProjectRepository;
+import pl.piotrFigura.ToDoApp.task.TaskGroups;
+import pl.piotrFigura.ToDoApp.task.dto.GroupReadModel;
+import pl.piotrFigura.ToDoApp.task.TaskGroupFacade;
+import pl.piotrFigura.ToDoApp.task.TaskGroupRepository;
+import pl.piotrFigura.ToDoApp.task.TaskQueryGroupRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectFacadeTest {
