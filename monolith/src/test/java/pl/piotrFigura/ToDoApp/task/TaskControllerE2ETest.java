@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.task.interfaces;
+package pl.piotrFigura.ToDoApp.task;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -13,11 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.piotrFigura.ToDoApp.ToDoAppIT;
-import pl.piotrFigura.ToDoApp.task.Task;
 import pl.piotrFigura.ToDoApp.task.dto.TaskDto;
-import pl.piotrFigura.ToDoApp.task.TaskFacade;
-import pl.piotrFigura.ToDoApp.task.TaskQueryRepository;
-import pl.piotrFigura.ToDoApp.task.TaskRepository;
+
 
 import java.time.LocalDateTime;
 

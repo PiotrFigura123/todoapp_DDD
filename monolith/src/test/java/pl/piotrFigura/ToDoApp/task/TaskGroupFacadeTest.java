@@ -1,8 +1,8 @@
-package pl.piotrFigura.ToDoApp.task.infrastructure;
+package pl.piotrFigura.ToDoApp.task;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import pl.piotrFigura.ToDoApp.task.TaskFacade;
 import pl.piotrFigura.ToDoApp.task.TaskGroupFacade;
 import pl.piotrFigura.ToDoApp.task.TaskGroups;
-import pl.piotrFigura.ToDoApp.task.TaskGroupRepository;
+
 import pl.piotrFigura.ToDoApp.task.TaskQueryRepository;
 
 class TaskGroupFacadeTest {
@@ -23,9 +23,8 @@ class TaskGroupFacadeTest {
     void toggleGroup() {
     //given
         var mockTaskQueryRepo = mock(TaskQueryRepository.class);
-        var mockTaskFasade = mock(TaskFacade.class);
         when(mockTaskQueryRepo.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( true );
-        var toTest = new TaskGroupFacade(null, null, mockTaskFasade , mockTaskQueryRepo);
+        var toTest = new TaskGroupFacade(null, null,  mockTaskQueryRepo);
         //when
         var exception = catchThrowable(() -> toTest.toggleGroup( 1l));
         //then
@@ -39,11 +38,10 @@ class TaskGroupFacadeTest {
     void toggleGroup_wrongId_throwsIllegalArgumentException() {
         //given
         var mockTaskQueryRepo = mock(TaskQueryRepository.class);
-        var mockTaskFasade = mock(TaskFacade.class);
         when(mockTaskQueryRepo.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( true );
         var mockTaskGroupRepository = mock(TaskGroupRepository.class);
         when(mockTaskGroupRepository.findById(anyLong())).thenReturn(Optional.empty());
-        var toTest = new TaskGroupFacade(mockTaskGroupRepository, null, mockTaskFasade, mockTaskQueryRepo);
+        var toTest = new TaskGroupFacade(mockTaskGroupRepository, null, mockTaskQueryRepo);
         //when
         var exception = catchThrowable(() -> toTest.toggleGroup( 1l));
         //then
@@ -57,13 +55,12 @@ class TaskGroupFacadeTest {
     void should_toggleGroup() {
         //given
         var mockTaskQueryRepo = mock(TaskQueryRepository.class);
-        var mockTaskFasade = mock(TaskFacade.class);
         when(mockTaskQueryRepo.existsByDoneIsFalseAndGroup_Id(anyLong())).thenReturn( true );;
         var group = new TaskGroups();
         var beforeToggle = group.isDone();
         var mockTaskGroupRepository = mock(TaskGroupRepository.class);
         when(mockTaskGroupRepository.findById(anyLong())).thenReturn(Optional.of(group));
-        var toTest = new TaskGroupFacade(mockTaskGroupRepository, null, mockTaskFasade, mockTaskQueryRepo);
+        var toTest = new TaskGroupFacade(mockTaskGroupRepository, null, mockTaskQueryRepo);
         //when
         toTest.toggleGroup(0l);
         //then

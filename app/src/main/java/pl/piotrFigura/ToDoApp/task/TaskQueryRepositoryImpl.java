@@ -1,14 +1,13 @@
 package pl.piotrFigura.ToDoApp.task;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import pl.piotrFigura.ToDoApp.task.dto.TaskDto;
 
 
 import java.util.List;
 
-interface TaskQueryRepositoryImpl extends TaskQueryRepository, Repository<Task, Long> {
+interface TaskQueryRepositoryImpl extends TaskQueryRepository {
     @Override
     @Query(nativeQuery = true, value = "select count(*) > 0 from tasks where id=:id")
     boolean existsById(@Param("id") Long id);

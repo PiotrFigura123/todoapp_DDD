@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.task.infrastructure.jpa;
+package pl.piotrFigura.ToDoApp.task;
 
 import pl.piotrFigura.ToDoApp.task.TaskRepository;
 import pl.piotrFigura.ToDoApp.task.dto.TaskDto;

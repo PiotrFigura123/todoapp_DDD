@@ -1,9 +1,9 @@
-package pl.piotrFigura.ToDoApp.project.infrastructure;
+package pl.piotrFigura.ToDoApp.project;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -21,14 +21,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.piotrFigura.ToDoApp.task.TaskConfigurationProperties;
-import pl.piotrFigura.ToDoApp.project.ProjectFacade;
-import pl.piotrFigura.ToDoApp.project.Project;
-import pl.piotrFigura.ToDoApp.project.ProjectSteps;
-import pl.piotrFigura.ToDoApp.project.ProjectRepository;
 import pl.piotrFigura.ToDoApp.task.TaskGroups;
 import pl.piotrFigura.ToDoApp.task.dto.GroupReadModel;
 import pl.piotrFigura.ToDoApp.task.TaskGroupFacade;
-import pl.piotrFigura.ToDoApp.task.TaskGroupRepository;
+
 import pl.piotrFigura.ToDoApp.task.TaskQueryGroupRepository;
 
 @ExtendWith(MockitoExtension.class)

@@ -1,12 +1,14 @@
 package pl.piotrFigura.ToDoApp.task;
 
+
+import org.springframework.data.repository.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.piotrFigura.ToDoApp.task.dto.TaskDto;
 
 
 import java.util.List;
 
-public interface TaskQueryRepository {
+public interface TaskQueryRepository extends Repository<Task, Long> {
     List<TaskDto> findAllBy();
 
     boolean existsById(Long id);

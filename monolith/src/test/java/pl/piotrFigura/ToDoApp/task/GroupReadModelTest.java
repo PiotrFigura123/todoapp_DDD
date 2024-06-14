@@ -1,4 +1,4 @@
-package pl.piotrFigura.ToDoApp.task.domain.contract;
+package pl.piotrFigura.ToDoApp.task;
 
 
 

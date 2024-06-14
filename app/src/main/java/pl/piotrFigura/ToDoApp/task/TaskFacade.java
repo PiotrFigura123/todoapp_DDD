@@ -1,20 +1,22 @@
 package pl.piotrFigura.ToDoApp.task;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
 import pl.piotrFigura.ToDoApp.task.dto.TaskDto;
 
 import java.util.Optional;
-@Service
 @Slf4j
-@RequiredArgsConstructor
 public class TaskFacade {
 
     private final TaskRepository taskRepository;
     private final TaskFactory factory;
     private final ApplicationEventPublisher publisher;
+
+    public TaskFacade(final TaskRepository taskRepository, final ApplicationEventPublisher publisher) {
+        this.taskRepository = taskRepository;
+        this.factory = new TaskFactory();
+        this.publisher = publisher;
+    }
 
     public TaskDto get(Long id){
         return taskRepository.findDtoById(id).orElseThrow(()-> new IllegalArgumentException("don't exist"));

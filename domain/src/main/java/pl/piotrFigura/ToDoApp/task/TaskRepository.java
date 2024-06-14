@@ -1,7 +1,5 @@
 package pl.piotrFigura.ToDoApp.task;
 
-
-
 import pl.piotrFigura.ToDoApp.task.dto.TaskDto;
 
 import java.util.Optional;
